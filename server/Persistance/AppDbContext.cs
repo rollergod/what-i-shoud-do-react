@@ -24,10 +24,15 @@ namespace server.Persistance
         {
             var hasher = new PasswordHasher<IdentityUser>();
 
+            builder.Entity<UserModel>()
+                .Property(x => x.ImageName)
+                .IsRequired(false);
+
             builder.Entity<UserModel>().HasData(
                 new UserModel()
                 {
                     Id = "8e445865-a24d-4543-a6c6-9443d048cdb9", // primary key
+                    DisplayName = "myuser",
                     UserName = "myuser",
                     NormalizedUserName = "MYUSER",
                     PasswordHash = hasher.HashPassword(null, "Pa$$w0rd")

@@ -4,6 +4,7 @@ namespace server.Domain.Models
 {
     public class UserModel : IdentityUser
     {
-        //TODO: add properties
+        public string DisplayName { get; set; }
+        public string ImageName { get; set; }
     }
 }

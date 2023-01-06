@@ -29,6 +29,8 @@ namespace server.Persistance.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
+                    DisplayName = table.Column<string>(type: "text", nullable: false),
+                    ImageName = table.Column<string>(type: "text", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -157,8 +159,8 @@ namespace server.Persistance.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "33ed4bdc-0c38-4e7e-958b-43291b490e9e", null, false, false, null, null, "MYUSER", "AQAAAAEAACcQAAAAEPLW1J0c7qLQivN9bkU1CqV+VLe5mFp55tNg7jO0ra6Knj524+q/HKDkadFOdJ7Bjw==", null, false, "9298cfab-1688-4190-a597-61b45ff160ac", false, "myuser" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DisplayName", "Email", "EmailConfirmed", "ImageName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "423fa851-527f-4ce3-b860-88f7bef3bdab", "myuser", null, false, null, false, null, null, "MYUSER", "AQAAAAEAACcQAAAAEAhA01JUeDmitJLoG3xRfK+WEjjUrnnSLFA+62pvcIxRmnW/ftBwWtyAF2yRfvS3gA==", null, false, "5e327e18-84e5-4d2f-9816-2082a9ee2ce2", false, "myuser" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

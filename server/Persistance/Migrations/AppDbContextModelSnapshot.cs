@@ -166,12 +166,19 @@ namespace server.Persistance.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -222,13 +229,14 @@ namespace server.Persistance.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "33ed4bdc-0c38-4e7e-958b-43291b490e9e",
+                            ConcurrencyStamp = "423fa851-527f-4ce3-b860-88f7bef3bdab",
+                            DisplayName = "myuser",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "MYUSER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPLW1J0c7qLQivN9bkU1CqV+VLe5mFp55tNg7jO0ra6Knj524+q/HKDkadFOdJ7Bjw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAhA01JUeDmitJLoG3xRfK+WEjjUrnnSLFA+62pvcIxRmnW/ftBwWtyAF2yRfvS3gA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9298cfab-1688-4190-a597-61b45ff160ac",
+                            SecurityStamp = "5e327e18-84e5-4d2f-9816-2082a9ee2ce2",
                             TwoFactorEnabled = false,
                             UserName = "myuser"
                         });
