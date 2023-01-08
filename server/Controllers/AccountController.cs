@@ -1,41 +1,47 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using server.Domain.Contracts.Requests;
+using server.Features.Accounts.Register;
 using server.Services.Interfaces;
 
 namespace server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        private IAuthService _authService;
+        private ISender _sender;
 
-        public AccountController(IAuthService authService)
+        public AccountController(ISender sender)
         {
-            _authService = authService;
+            _sender = sender;
         }
 
-        [HttpPost]
-        public IActionResult Register([FromBody] RegisterRequest request)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(
+            [FromBody] RegisterRequest request,
+            CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var result = _authService.RegisterAsync(request);
+            var command = new RegisterCommand(request);
 
-            return Ok("registered");
+            var result = await _sender.Send(command);
+
+            return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var result = _authService.LoginAsync(request);
+            // var result = _authService.LoginAsync(request);
 
             //token
-            return Ok(result);
+            return Ok("token");
         }
     }
 }

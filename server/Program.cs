@@ -1,10 +1,11 @@
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using server.Domain.Models;
 using server.OptionsSetup;
 using server.Persistance;
+using server.Services.Interfaces;
 using server.Services.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ValidateAudience = true
     });
 
+builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
+
 builder.Services.AddDbContext<AppDbContext>();
 
 builder.Services.AddIdentityCore<UserModel>()
@@ -33,6 +36,8 @@ builder.Services.ConfigureOptions<JwtOptionsSetup>(); // когда инжект
 // builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));  аналог
 
 builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+
+builder.Services.AddMediatR(typeof(Program).Assembly);
 
 var app = builder.Build();
 

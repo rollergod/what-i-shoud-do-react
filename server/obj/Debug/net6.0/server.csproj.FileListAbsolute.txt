@@ -53,3 +53,4 @@ D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\Microsoft.Identit
 D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
