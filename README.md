@@ -7,6 +7,7 @@
 
 - добавил систему Identity Core
 - добавил DbContext с PostgreSQL
+- CQRS
 
 На клиенте-
 
@@ -18,7 +19,6 @@
 - [x]  Доделать UserModel(добавить свойства)
 - [x]  Генерация JWT (appsettings.json (options pattern) , интерфейсы)
 - [ ]  Разобраться почему не работает DefaultTokenProvider
-- [ ]  Сделать метод регистрации пользователя
-- [ ]  Попробовать привести проект с CQRS(Command Query Responsibility Segregation)
-- [ ]  Проверка на null в сервисе
+- [x]  Сделать метод регистрации пользователя
+- [x]  Попробовать привести проект с CQRS(Command Query Responsibility Segregation)
 - [ ]  Создать generic для response
