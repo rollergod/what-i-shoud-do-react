@@ -29,7 +29,7 @@ namespace server.Services.Authentication
             // проверка на null
         }
 
-        public async Task<AuthResponse> LoginAsync(LoginRequest model)
+        public async Task<LoginResponse> LoginAsync(LoginRequest model)
         {
             var existing_user = await _userManager.FindByEmailAsync(model.Email);
 
@@ -39,7 +39,7 @@ namespace server.Services.Authentication
 
             string token = _jwtProvider.GenerateJwt(existing_user);
 
-            AuthResponse response = new(token);
+            LoginResponse response = new(token);
 
             return response;
         }

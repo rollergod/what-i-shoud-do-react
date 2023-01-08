@@ -44,3 +44,12 @@ D:\Projects\2022\what-i-shoud-do-react\server\obj\Debug\net6.0\server.genruntime
 D:\Projects\2022\what-i-shoud-do-react\server\obj\Debug\net6.0\ref\server.dll
 D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\Humanizer.dll
 D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\MediatR.dll
+D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\MediatR.Contracts.dll
+D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+D:\Projects\2022\what-i-shoud-do-react\server\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll

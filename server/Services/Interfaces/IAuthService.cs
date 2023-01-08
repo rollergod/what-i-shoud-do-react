@@ -6,6 +6,6 @@ namespace server.Services.Interfaces
     public interface IAuthService
     {
         Task RegisterAsync(RegisterRequest model);
-        Task<AuthResponse> LoginAsync(LoginRequest model);
+        Task<LoginResponse> LoginAsync(LoginRequest model);
     }
 }
