@@ -15,6 +15,10 @@
 
 Доработать
 
-- [ ]  Доделать UserModel(добавить свойства)
-- [ ]  Генерация JWT (appsettings.json (options pattern) , интерфейсы)
+- [x]  Доделать UserModel(добавить свойства)
+- [x]  Генерация JWT (appsettings.json (options pattern) , интерфейсы)
 - [ ]  Разобраться почему не работает DefaultTokenProvider
+- [ ]  Сделать метод регистрации пользователя
+- [ ]  Попробовать привести проект с CQRS(Command Query Responsibility Segregation)
+- [ ]  Проверка на null в сервисе
+- [ ]  Создать generic для response
