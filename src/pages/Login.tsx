@@ -1,45 +1,38 @@
 import React from "react";
 
+import ImagePage from "../components/ImagePage";
+import "bootstrap/dist/css/bootstrap.css";
+
 const Login = () => {
     return (
-        <form>
-            <h3>Sign Up</h3>
-            <div className="mb-3">
-                <label>First name</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    placeholder="First name"
-                />
+        <form className="w-25 mt-5 m-auto">
+            <div className="form-outline mb-4">
+                <input type="email" id="form2Example1" className="form-control" />
+                <label className="form-label" >Email address</label>
             </div>
-            <div className="mb-3">
-                <label>Last name</label>
-                <input type="text" className="form-control" placeholder="Last name" />
+
+            <div className="form-outline mb-4">
+                <input type="password" id="form2Example2" className="form-control" />
+                <label className="form-label" >Password</label>
             </div>
-            <div className="mb-3">
-                <label>Email address</label>
-                <input
-                    type="email"
-                    className="form-control"
-                    placeholder="Enter email"
-                />
+
+            <div className="form-outline mb-4">
+                <input type="password" id="form2Example2" className="form-control" />
+                {/* <ImagePage></ImagePage> */}
+                <label className="form-label" >Profile Image</label>
             </div>
-            <div className="mb-3">
-                <label>Password</label>
-                <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Enter password"
-                />
+
+            <div className="row mb-4">
+                <div className="col">
+                    <a href="#!">Forgot password?</a>
+                </div>
             </div>
-            <div className="d-grid">
-                <button type="submit" className="btn btn-primary">
-                    Sign Up
-                </button>
+
+            <button type="button" className="btn btn-primary btn-block mb-4">Sign in</button>
+
+            <div className="text-center">
+                <p>Not a member? <a href="#!">Register</a></p>
             </div>
-            <p className="forgot-password text-right">
-                Already registered <a href="/sign-in">sign in?</a>
-            </p>
         </form>
     )
 };
