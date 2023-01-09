@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using server.Domain.Contracts.Requests;
+using server.Features.Accounts.Login;
 using server.Features.Accounts.Register;
 using server.Services.Interfaces;
 
@@ -27,23 +28,24 @@ namespace server.Controllers
 
             var command = new RegisterCommand(request);
 
-            var result = await _sender.Send(command);
+            var result = await _sender.Send(command); //TODO: bad request?
 
             return Ok(result);
         }
 
         [HttpPost("login")]
-        public IActionResult Login(
+        public async Task<IActionResult> Login(
             LoginRequest request,
             CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            // var result = _authService.LoginAsync(request);
+            var command = new LoginCommand(request);
 
-            //token
-            return Ok("token");
+            var result = await _sender.Send(request); //TODO: bad request?
+
+            return Ok(result);
         }
     }
 }

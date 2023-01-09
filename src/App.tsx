@@ -46,8 +46,9 @@ function App() {
     </C1>
      */}
 
-     <ImagePage></ImagePage>
-    
+     {/* <ImagePage></ImagePage> */}
+
+     <Login></Login>
     </div>
   );
 }
