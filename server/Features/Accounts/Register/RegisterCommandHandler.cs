@@ -1,22 +1,19 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using server.Abstractions;
 using server.Domain.Contracts.Responses;
 using server.Domain.Models;
 using server.Services.Interfaces;
 
 namespace server.Features.Accounts.Register
 {
-    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterResponse>
+    public class RegisterCommandHandler : ICommandHandler<RegisterCommand, RegisterResponse>
     {
         private readonly UserManager<UserModel> _userManager;
-        private readonly IJwtProvider _jwtProvider;
 
-        public RegisterCommandHandler(
-            UserManager<UserModel> userManager,
-            IJwtProvider jwtProvider)
+        public RegisterCommandHandler(UserManager<UserModel> userManager)
         {
             _userManager = userManager;
-            _jwtProvider = jwtProvider;
         }
 
         public async Task<RegisterResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)

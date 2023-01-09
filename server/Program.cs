@@ -10,25 +10,19 @@ using server.Services.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(o => o.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true
-    });
+    .AddJwtBearer();
 
 builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
 
 builder.Services.AddDbContext<AppDbContext>();
 
-builder.Services.AddIdentityCore<UserModel>()
+builder.Services.AddIdentityCore<UserModel>(o => o.SignIn.RequireConfirmedEmail = false)
     .AddUserManager<UserManager<UserModel>>()
     .AddEntityFrameworkStores<AppDbContext>();
 
@@ -41,7 +35,6 @@ builder.Services.AddMediatR(typeof(Program).Assembly);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
