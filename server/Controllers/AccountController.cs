@@ -19,7 +19,7 @@ namespace server.Controllers
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(
-            [FromBody] RegisterRequest request,
+            RegisterRequest request,
             CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
@@ -33,7 +33,9 @@ namespace server.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public IActionResult Login(
+            LoginRequest request,
+            CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
