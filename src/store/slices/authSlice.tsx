@@ -3,7 +3,7 @@ import { createSlice, Slice } from '@reduxjs/toolkit';
 type User = {
     user: {
         email: '',
-        imageName: ''
+        imageRef: ''
     },
     token: '',
 }
@@ -13,17 +13,17 @@ const authSlice: Slice<User> = createSlice({
     initialState: {
         user: {
             email: '',
-            imageName: ''
+            imageRef: ''
         },
         token: '',
     },
     reducers: {
         setCredentials: (state, action) => {
-            const { email, imageName, token } = action.payload;
+            const { email, token, imageRef } = action.payload;
 
             state.user = {
                 email: email,
-                imageName: imageName
+                imageRef: imageRef,
             };
 
             state.token = token;

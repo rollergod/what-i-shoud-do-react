@@ -1,3 +1,4 @@
+using System.Security.Authentication.ExtendedProtection;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -33,6 +34,13 @@ builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
 
 builder.Services.AddMediatR(typeof(Program).Assembly);
 
+builder.Services.AddCors(o => o.AddPolicy("Default", policy =>
+{
+    policy.AllowAnyOrigin()
+          .AllowAnyHeader()
+          .AllowAnyMethod();
+}));
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -41,7 +49,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
+
+app.UseCors("Default");
 
 app.UseAuthentication();
 
