@@ -1,17 +1,23 @@
 import React from 'react';
 import './App.css';
 
-import C1 from './react-render/C1';
-import C2 from './react-render/C2';
-
-import ImagePage from './components/ImagePage';
 import Login from './pages/Login';
+
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from 'react-router-dom';
 
 function App() {
 
   return (
     <div className='App'>
-      <ImagePage></ImagePage>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Login></Login>} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

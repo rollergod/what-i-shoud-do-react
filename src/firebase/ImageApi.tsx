@@ -1,5 +1,5 @@
 import React from "react";
-import { storage } from "../firebase";
+import { storage } from "./firebaseConfiguration";
 import { getDownloadURL, ref, uploadBytesResumable, listAll } from "firebase/storage";
 
 export const getImage = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, file: File): Promise<string> => {
@@ -15,15 +15,4 @@ export const uploadFile = (file: File) => {
 
     const storageRef = ref(storage, `/files/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
-
-    //procenti
-    // uploadTask.on("state_changed", (snapshot) => {
-    //     const prog = Math.round(
-    //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-    //     );
-    // }, (err) => console.log(err),
-    //     () => {
-    //         getDownloadURL(uploadTask.snapshot.ref)
-    //             .then(url => console.log(url));
-    //     });
 };
