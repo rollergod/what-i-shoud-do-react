@@ -43,7 +43,7 @@ namespace server.Controllers
 
             var command = new LoginCommand(request);
 
-            var result = await _sender.Send(request); //TODO: bad request?
+            var result = await _sender.Send(command); //TODO: bad request?
 
             return Ok(result);
         }

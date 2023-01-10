@@ -1,22 +1,24 @@
 import { createSlice, Slice } from '@reduxjs/toolkit';
 
-type User = {
+type User = { //TODO: переименовать..
     user: {
         email: '',
-        imageRef: ''
+        imageRef: '',
     },
     token: '',
 }
 
+const initialState: User = {
+    user: {
+        email: '',
+        imageRef: '',
+    },
+    token: '',
+};
+
 const authSlice: Slice<User> = createSlice({
     name: 'auth',
-    initialState: {
-        user: {
-            email: '',
-            imageRef: ''
-        },
-        token: '',
-    },
+    initialState: initialState,
     reducers: {
         setCredentials: (state, action) => {
             const { email, token, imageRef } = action.payload;
@@ -25,7 +27,6 @@ const authSlice: Slice<User> = createSlice({
                 email: email,
                 imageRef: imageRef,
             };
-
             state.token = token;
         },
         deleteCredentials: (state) => {
@@ -39,5 +40,6 @@ export const { setCredentials, deleteCredentials } = authSlice.actions;
 
 export default authSlice.reducer;
 
-export const selectCurrentUser = (state) => state.auth.user;
-export const selectCurrentToken = (state) => state.auth.token;
+export const selectCurrentUser = (state): { email: string, imageRef: string } => state.auth.user; //TODO: сделать типы
+export const selectCurrentImageRef = (state): string => state.auth.user.imageRef;
+export const selectCurrentToken = (state): string => state.auth.token;

@@ -34,7 +34,7 @@ namespace server.Features.Accounts.Login
 
             string token = _jwtProvider.GenerateJwt(existingUser);
 
-            return new LoginResponse("Authorization is successfull", token);
+            return new LoginResponse("Authorization is successfull", token, existingUser.ImageName);
         }
     }
 }

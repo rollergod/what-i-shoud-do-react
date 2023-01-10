@@ -1,20 +1,18 @@
 import React from 'react';
 
-import { Navigate, Route } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectCurrentToken } from '../store/slices/authSlice';
 
 
-const PrivateRoute = ({ ...children }) => {
-
-    sessionStorage.setItem('jwt', 'test');
+const PrivateRoute = ({ children }) => {
 
     const token = useSelector(selectCurrentToken);
 
-    if (token === null || '')
-        return <Navigate to='/login' />
+    if (!token)
+        return <Navigate to='/login' replace />
 
-    return <Route {...children} />
+    return children;
 };
 
-export default PrivateRoute;
+export { PrivateRoute };

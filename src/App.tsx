@@ -1,13 +1,16 @@
 import React from 'react';
 import './App.css';
 
-import Login from './pages/Login';
-
 import {
   BrowserRouter,
   Routes,
   Route
 } from 'react-router-dom';
+import { PrivateRoute } from './hoc/PrivateRoute';
+
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
 
@@ -15,7 +18,13 @@ function App() {
     <div className='App'>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Login></Login>} />
+          <Route path='/login' element={<Login></Login>} />
+          <Route path='/register' element={<Register></Register>} />
+          <Route path='/' element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          } />
         </Routes>
       </BrowserRouter>
     </div>
