@@ -1,8 +1,6 @@
-using System.Security.Authentication.ExtendedProtection;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
 using server.Domain.Models;
 using server.OptionsSetup;
 using server.Persistance;
@@ -10,7 +8,6 @@ using server.Services.Interfaces;
 using server.Services.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

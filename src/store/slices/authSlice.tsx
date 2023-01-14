@@ -1,6 +1,6 @@
 import { createSlice, Slice } from '@reduxjs/toolkit';
 
-type User = { //TODO: переименовать..
+type AuthState = {
     user: {
         email: '',
         imageRef: '',
@@ -8,7 +8,7 @@ type User = { //TODO: переименовать..
     token: '',
 }
 
-const initialState: User = {
+const initialState: AuthState = {
     user: {
         email: '',
         imageRef: '',
@@ -16,7 +16,7 @@ const initialState: User = {
     token: '',
 };
 
-const authSlice: Slice<User> = createSlice({
+const authSlice: Slice<AuthState> = createSlice({
     name: 'auth',
     initialState: initialState,
     reducers: {

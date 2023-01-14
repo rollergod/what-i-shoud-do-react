@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "5220b2cFG42mng4cfnu1V4twQku8HdpKnFB4SsIYrRLXoHDdKiWoW3gioGdutmZI+ttClnxSsPNHF/k+/hZLpg==",
+  "dgSpecHash": "npPT1t4nTlZSAbPAeRwidbdNCeFbcAxoOcjayx1wTto6n1O6DEPEI76ox1anCQMuGCSG1MNjiU8ebvM6I8RucQ==",
   "success": true,
   "projectFilePath": "D:\\Projects\\2022\\what-i-shoud-do-react\\server\\server.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\renat\\.nuget\\packages\\erroror\\1.2.1\\erroror.1.2.1.nupkg.sha512",
     "C:\\Users\\renat\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\renat\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
     "C:\\Users\\renat\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",

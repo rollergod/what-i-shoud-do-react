@@ -1,0 +1,9 @@
+@host=http://localhost:
+
+POST {{host}}/api/account/register
+
+Content-Type: application/json
+
+{   
+
+}

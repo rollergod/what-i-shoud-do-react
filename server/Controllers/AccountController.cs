@@ -1,9 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using server.Domain.Contracts.Requests;
+using server.Domain.Errors;
 using server.Features.Accounts.Login;
 using server.Features.Accounts.Register;
-using server.Services.Interfaces;
 
 namespace server.Controllers
 {
@@ -45,7 +45,12 @@ namespace server.Controllers
 
             var result = await _sender.Send(command); //TODO: bad request?
 
-            return Ok(result);
+            return result.MatchFirst(
+                authResult => Ok(authResult),
+                error => Ok(error) // TODO разобраться почему не работает errors => error is ... ?
+            );
+
+            // return string.IsNullOrEmpty(result.AccessToken) ? BadRequest(result) : Ok(result); // error reponse
         }
     }
 }
