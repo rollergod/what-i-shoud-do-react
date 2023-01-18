@@ -1,7 +1,8 @@
+using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using server.Domain.Contracts.Requests;
-using server.Domain.Errors;
+using server.Domain.Contracts.Responses;
 using server.Features.Accounts.Login;
 using server.Features.Accounts.Register;
 
@@ -28,9 +29,12 @@ namespace server.Controllers
 
             var command = new RegisterCommand(request);
 
-            var result = await _sender.Send(command); //TODO: bad request?
+            ErrorOr<RegisterResponse> result = await _sender.Send(command);
 
-            return Ok(result);
+            return result.MatchFirst(
+               registerResult => Ok(registerResult),
+               firstError => Problem(statusCode: StatusCodes.Status409Conflict, title: firstError.Description)
+            );
         }
 
         [HttpPost("login")]
@@ -43,14 +47,12 @@ namespace server.Controllers
 
             var command = new LoginCommand(request);
 
-            var result = await _sender.Send(command); //TODO: bad request?
+            ErrorOr<LoginResponse> result = await _sender.Send(command);
 
             return result.MatchFirst(
-                authResult => Ok(authResult),
-                error => Ok(error) // TODO разобраться почему не работает errors => error is ... ?
+                loginResult => Ok(loginResult),
+                firstError => Problem(statusCode: StatusCodes.Status409Conflict, title: firstError.Description)
             );
-
-            // return string.IsNullOrEmpty(result.AccessToken) ? BadRequest(result) : Ok(result); // error reponse
         }
     }
 }

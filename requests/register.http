@@ -1,9 +1,11 @@
-@host=http://localhost:
+@host=http://localhost:5058
 
 POST {{host}}/api/account/register
-
 Content-Type: application/json
 
 {   
-
+    "Name" : "Renzad228",
+    "Password" :"Pa55sw0rd!123",
+    "Email" : "Renzad228@yandex.ru",
+    "ImageName" : ""
 }

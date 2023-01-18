@@ -8,7 +8,7 @@ namespace server.Domain.Errors
         {
             public static Error NotFound = Error.NotFound("User.NotFound", "User not found.");
             public static Error DuplicateEmail = Error.Conflict("User.DuplicateEmail", "User with given email already exists.");
-
+            public static Error BadCredentials = Error.Validation("User.BadPassword", "User with current credentials does not exist");
         }
     }
 }

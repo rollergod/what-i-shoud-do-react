@@ -1,7 +1,6 @@
 using ErrorOr;
 using Microsoft.AspNetCore.Identity;
 using server.Abstractions;
-using server.Domain.Contracts.Requests;
 using server.Domain.Contracts.Responses;
 using server.Domain.Errors;
 using server.Domain.Models;
@@ -27,18 +26,19 @@ namespace server.Features.Accounts.Login
             var existingUser = await _userManager.FindByEmailAsync(request.model.Email);
 
             if (existingUser is null)
-                return Errors.User.DuplicateEmail;
-            // return new LoginResponse(message: "User with current credentials was not found");
+                return Errors.User.NotFound;
 
             bool isPasswordCorrect = await _userManager.CheckPasswordAsync(existingUser, request.model.Password);
 
             if (!isPasswordCorrect)
-                return Errors.User.DuplicateEmail;
-            // return new LoginResponse(message: "Email or password is not correct");
+                return Errors.User.BadCredentials;
 
             string token = _jwtProvider.GenerateJwt(existingUser);
 
-            return new LoginResponse("Authorization is successfull", token, existingUser.ImageName);
+            return new LoginResponse(
+                message: "Authorization is successfull",
+                AccessToken: token,
+                imageName: existingUser.ImageName);
         }
     }
 }

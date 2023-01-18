@@ -1,13 +1,13 @@
-using MediatR;
+using server.Domain.Contracts.Responses;
 using Microsoft.AspNetCore.Identity;
 using server.Abstractions;
-using server.Domain.Contracts.Responses;
 using server.Domain.Models;
-using server.Services.Interfaces;
+using server.Domain.Errors;
+using ErrorOr;
 
 namespace server.Features.Accounts.Register
 {
-    public class RegisterCommandHandler : ICommandHandler<RegisterCommand, RegisterResponse>
+    public class RegisterCommandHandler : ICommandHandler<RegisterCommand, ErrorOr<RegisterResponse>>
     {
         private readonly UserManager<UserModel> _userManager;
 
@@ -16,12 +16,12 @@ namespace server.Features.Accounts.Register
             _userManager = userManager;
         }
 
-        public async Task<RegisterResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<RegisterResponse>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             var isUserExist = await _userManager.FindByEmailAsync(request.model.Email);
 
             if (isUserExist is not null)
-                return new RegisterResponse("User with current credentials already exists");
+                return Errors.User.NotFound;
 
             var userModel = new UserModel
             {
@@ -34,7 +34,7 @@ namespace server.Features.Accounts.Register
             var isCreated = await _userManager.CreateAsync(userModel, request.model.Password);
 
             if (!isCreated.Succeeded)
-                return new RegisterResponse("Something went wrong while creating a new user instance");
+                return Errors.Authenticate.CreateUser;
 
             return new RegisterResponse("Registration completed");
         }

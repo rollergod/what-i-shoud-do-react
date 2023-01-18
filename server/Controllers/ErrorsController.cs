@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace server.Controllers
 {
     [Route("/error")]
-    public class ErorsController : ControllerBase
+    public class ErrorsController : ControllerBase
     {
         public IActionResult Problem(List<Error> errors)
         {
