@@ -32,6 +32,7 @@ const authSlice: Slice<AuthState> = createSlice({
         deleteCredentials: (state) => {
             state.user = null;
             state.token = null;
+            localStorage.clear(); //todo : переделать выход из приложения
         }
     }
 });

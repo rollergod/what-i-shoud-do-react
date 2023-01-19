@@ -3,6 +3,6 @@ POST {{host}}/api/account/login
 Content-Type: application/json
 
 {
-    "Email" : "Renzad2282@yandex.ru",
+    "Email" : "Renzadik228@yandex.ru",
     "Password" :"Pa55sw0rd!123"
 }

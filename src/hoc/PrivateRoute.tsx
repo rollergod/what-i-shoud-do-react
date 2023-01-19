@@ -7,7 +7,10 @@ import { selectCurrentToken } from '../store/slices/authSlice';
 
 const PrivateRoute = ({ children }) => {
 
-    const token = useSelector(selectCurrentToken);
+    // const token = useSelector(selectCurrentToken);
+    // console.log('asd', token);
+
+    const token: string = localStorage.getItem('jwt');
 
     if (!token)
         return <Navigate to='/login' replace />

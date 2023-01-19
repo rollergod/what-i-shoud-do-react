@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System.Security.AccessControl;
 using System.Threading;
 using System.Text;
@@ -48,6 +49,20 @@ namespace server.Services.Jwt
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public RefreshToken GenerateRefreshToken()
+        {
+            var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+
+            var refreshToken = new RefreshToken
+            {
+                Token = token,
+                Expires = DateTime.Now.AddDays(30),
+                Created = DateTime.Now,
+            };
+
+            return refreshToken;
         }
 
         //v2

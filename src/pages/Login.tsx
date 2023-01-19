@@ -31,26 +31,26 @@ const Login = () => {
         };
 
         try {
-
             await axios.post(API_URLS.LOGIN, loginRequest)
                 .then(async resp => {
 
                     localStorage.setItem('jwt', resp.data.accessToken);
                     const imageUrl = await getImage(resp.data.imageName);
+                    localStorage.setItem('imageRef', imageUrl);
+                    localStorage.setItem('userName', resp.data.userName);
 
                     dispatch(setCredentials({
                         email: email,
                         password: password,
                         token: resp.data.accessToken,
                         imageRef: imageUrl
-                    }));
+                    })); // TODO : Persist Store?
 
+                    navigate('/');
                 })
-
         } catch (error) {
             console.log(error);
         }
-
     };
 
     return (

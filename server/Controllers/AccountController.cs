@@ -49,10 +49,24 @@ namespace server.Controllers
 
             ErrorOr<LoginResponse> result = await _sender.Send(command);
 
+            if (!string.IsNullOrEmpty(result.Value.refreshToken))
+                setTokenCookie(result.Value.refreshToken);
+
             return result.MatchFirst(
                 loginResult => Ok(loginResult),
                 firstError => Problem(statusCode: StatusCodes.Status409Conflict, title: firstError.Description)
             );
+        }
+
+        private void setTokenCookie(string token)
+        {
+            // append cookie with refresh token to the http response
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(7)
+            };
+            Response.Cookies.Append("refreshToken", token, cookieOptions);
         }
     }
 }

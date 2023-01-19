@@ -27,7 +27,8 @@ namespace server.OptionsSetup
                 ValidIssuer = _jwtOptions.Issuer,
                 ValidAudience = _jwtOptions.Audience,
                 IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(_jwtOptions.Secret))
+                    Encoding.UTF8.GetBytes(_jwtOptions.Secret)),
+                ClockSkew = TimeSpan.FromMinutes(0)
             };
         }
     }

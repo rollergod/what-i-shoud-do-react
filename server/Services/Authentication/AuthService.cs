@@ -39,7 +39,7 @@ namespace server.Services.Authentication
 
             string token = _jwtProvider.GenerateJwt(existing_user);
 
-            LoginResponse response = new(token);
+            LoginResponse response = new("", "", "", "", "");
 
             return response;
         }
