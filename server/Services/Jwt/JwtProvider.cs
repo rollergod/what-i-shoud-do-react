@@ -58,8 +58,8 @@ namespace server.Services.Jwt
             var refreshToken = new RefreshToken
             {
                 Token = token,
-                Expires = DateTime.Now.AddDays(30),
-                Created = DateTime.Now,
+                Expires = DateTime.UtcNow.AddDays(30),
+                Created = DateTime.UtcNow,
             };
 
             return refreshToken;

@@ -9,7 +9,7 @@ using server.Services.Interfaces;
 
 namespace server.Features.Accounts.Login
 {
-    public class LoginCommandHandler : ICommandHandler<LoginCommand, ErrorOr<LoginResponse>>
+    public sealed class LoginCommandHandler : ICommandHandler<LoginCommand, ErrorOr<LoginResponse>>
     {
         private readonly AppDbContext _context;
         private readonly UserManager<UserModel> _userManager;

@@ -260,14 +260,14 @@ namespace server.Persistance.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d3ab825f-6d2b-4992-9308-1adefaeee1c8",
+                            ConcurrencyStamp = "b7daf756-1da5-438a-9144-e8ef8ead2d6c",
                             DisplayName = "myuser",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "MYUSER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMlyoqA+LYv5qr1UOsdbNXRkRC+glS2FdFqZ+WtvQq1bUrqOgjwgN8/P8C8IEpE+Lw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGQ7g1SmGOTMzC+QsnTJq+AewiS6kFEIdh1M3Ft5dBO9ODi4sBDaeJznUvYsidB4Sw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "10daafa8-e150-4418-9223-f86af926bc97",
+                            SecurityStamp = "0a805dde-d22a-49ff-8064-31a4d5b2f6a3",
                             TwoFactorEnabled = false,
                             UserName = "myuser"
                         });

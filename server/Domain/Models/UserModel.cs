@@ -6,6 +6,6 @@ namespace server.Domain.Models
     {
         public string DisplayName { get; set; }
         public string ImageName { get; set; }
-        public List<RefreshToken> RefreshTokens { get; set; }
+        public List<RefreshToken> RefreshTokens { get; set; } = new();
     }
 }

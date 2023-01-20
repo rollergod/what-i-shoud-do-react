@@ -157,10 +157,32 @@ namespace server.Persistance.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "RefreshToken",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Token = table.Column<string>(type: "text", nullable: false),
+                    Expires = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Revoked = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    UserModelId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshToken", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshToken_AspNetUsers_UserModelId",
+                        column: x => x.UserModelId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DisplayName", "Email", "EmailConfirmed", "ImageName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "423fa851-527f-4ce3-b860-88f7bef3bdab", "myuser", null, false, null, false, null, null, "MYUSER", "AQAAAAEAACcQAAAAEAhA01JUeDmitJLoG3xRfK+WEjjUrnnSLFA+62pvcIxRmnW/ftBwWtyAF2yRfvS3gA==", null, false, "5e327e18-84e5-4d2f-9816-2082a9ee2ce2", false, "myuser" });
+                values: new object[] { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "b7daf756-1da5-438a-9144-e8ef8ead2d6c", "myuser", null, false, null, false, null, null, "MYUSER", "AQAAAAEAACcQAAAAEGQ7g1SmGOTMzC+QsnTJq+AewiS6kFEIdh1M3Ft5dBO9ODi4sBDaeJznUvYsidB4Sw==", null, false, "0a805dde-d22a-49ff-8064-31a4d5b2f6a3", false, "myuser" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -198,6 +220,11 @@ namespace server.Persistance.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshToken_UserModelId",
+                table: "RefreshToken",
+                column: "UserModelId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -216,6 +243,9 @@ namespace server.Persistance.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "RefreshToken");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

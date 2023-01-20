@@ -5,6 +5,7 @@ using server.Domain.Contracts.Requests;
 using server.Domain.Contracts.Responses;
 using server.Features.Accounts.Login;
 using server.Features.Accounts.Register;
+using server.Features.Tokens;
 
 namespace server.Controllers
 {
@@ -58,6 +59,26 @@ namespace server.Controllers
             );
         }
 
+        [HttpPost("refreshToken")]
+        public async Task<IActionResult> RefreshToken(
+            RefreshTokenRequest request,
+            CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var command = new RefreshTokenCommand(request);
+
+            ErrorOr<RefreshTokenResponse> result = await _sender.Send(command);
+
+            if (!string.IsNullOrEmpty(result.Value.RefreshToken))
+                setTokenCookie(result.Value.RefreshToken);
+
+            return result.MatchFirst(
+                refreshTokenResult => Ok(refreshTokenResult),
+                firstError => Problem(statusCode: StatusCodes.Status409Conflict, title: firstError.Description)
+            );
+        }
         private void setTokenCookie(string token)
         {
             // append cookie with refresh token to the http response

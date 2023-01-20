@@ -7,7 +7,7 @@ using ErrorOr;
 
 namespace server.Features.Accounts.Register
 {
-    public class RegisterCommandHandler : ICommandHandler<RegisterCommand, ErrorOr<RegisterResponse>>
+    public sealed class RegisterCommandHandler : ICommandHandler<RegisterCommand, ErrorOr<RegisterResponse>>
     {
         private readonly UserManager<UserModel> _userManager;
 

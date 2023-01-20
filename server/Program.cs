@@ -33,9 +33,10 @@ builder.Services.AddMediatR(typeof(Program).Assembly);
 
 builder.Services.AddCors(o => o.AddPolicy("Default", policy =>
 {
-    policy.AllowAnyOrigin()
+    policy.WithOrigins("http://localhost:3000")
           .AllowAnyHeader()
-          .AllowAnyMethod();
+          .AllowAnyMethod()
+          .AllowCredentials();
 }));
 
 var app = builder.Build();

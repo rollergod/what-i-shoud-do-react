@@ -31,7 +31,9 @@ const Login = () => {
         };
 
         try {
-            await axios.post(API_URLS.LOGIN, loginRequest)
+            await axios.post(API_URLS.LOGIN, loginRequest, {
+                withCredentials: true,
+            })
                 .then(async resp => {
 
                     localStorage.setItem('jwt', resp.data.accessToken);
