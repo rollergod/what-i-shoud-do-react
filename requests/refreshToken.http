@@ -3,5 +3,5 @@ POST {{host}}/api/account/refreshToken
 Content-Type: application/json
 
 {
-    "RefreshToken" : "LyqQCw5EFeLq1XXyXhQlm6LTdOhgs5cluHrHBneWTwUcpZnPxx1nHs84KuqO3DUmRRXQLoCB9I9NIFuj0cEf%2Fg%3D%3D"
+    "RefreshToken" : "4%2BTIw9r2Dv3r%2B2ahN8NAFN23IM7suhDYH9e16OyrOl5C06U61w4zwfTA3cKMWIFm6DY4hr%2Blcew7CeAhrhoZVw%3D%3D"
 }

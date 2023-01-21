@@ -163,26 +163,27 @@ namespace server.Persistance.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserModelId = table.Column<string>(type: "text", nullable: false),
                     Token = table.Column<string>(type: "text", nullable: false),
                     Expires = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Revoked = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    UserId = table.Column<string>(type: "text", nullable: true)
+                    Revoked = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RefreshTokens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RefreshTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_RefreshTokens_AspNetUsers_UserModelId",
+                        column: x => x.UserModelId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DisplayName", "Email", "EmailConfirmed", "ImageName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "fe45dcbc-4fe1-45a9-94d5-04acd34f3131", "myuser", null, false, null, false, null, null, "MYUSER", "AQAAAAEAACcQAAAAEGf3ciNzdHYcpcJHTyvhJ7GM9Gii74Qxf27TIcyQ7AxPcbulZWG+BOVf+cLo2mit1Q==", null, false, "eb729a6c-6b23-4867-ad53-7471985407f1", false, "myuser" });
+                values: new object[] { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "bfafa360-764f-4822-9bfd-45ddaf2ac28a", "myuser", null, false, null, false, null, null, "MYUSER", "AQAAAAEAACcQAAAAEAyyi/aZ/l69mtd3Il3BdHssI/4Ol3B74b3E/5gmkeY4sPGe6/9EXXKsTtopEbeMKA==", null, false, "aa494177-3af7-4b10-a290-5f679cc696e9", false, "myuser" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -222,9 +223,9 @@ namespace server.Persistance.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_RefreshTokens_UserId",
+                name: "IX_RefreshTokens_UserModelId",
                 table: "RefreshTokens",
-                column: "UserId");
+                column: "UserModelId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -23,16 +23,14 @@ namespace server.Features.Tokens
         }
         public async Task<ErrorOr<RefreshTokenResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            var test = Uri.UnescapeDataString(request.model.RefreshToken); //поменять имя
-            var users = _context.Users.Include(t => t.RefreshTokens).ToList();
-            var userWithCurrentToken = _context.Users.SingleOrDefault(x => x.RefreshTokens.Any(t => t.Token == test));
-            var usersWithInclude = _context.Users.Include(t => t.RefreshTokens).SingleOrDefault(x => x.RefreshTokens.Any(t => t.Token == test));
-            //последний вариант рабочий
+            var currentRefreshToken = Uri.UnescapeDataString(request.model.RefreshToken);
+            var userWithCurrentToken = _context.Users.Include(t => t.RefreshTokens)
+                                                     .SingleOrDefault(x => x.RefreshTokens.Any(t => t.Token == currentRefreshToken));
 
             if (userWithCurrentToken is null)
                 return Errors.User.NotFound;
 
-            RefreshToken refreshToken = userWithCurrentToken.RefreshTokens.SingleOrDefault(x => x.Token == request.model.RefreshToken);
+            RefreshToken refreshToken = userWithCurrentToken.RefreshTokens.SingleOrDefault(x => x.Token == currentRefreshToken);
 
             if (!refreshToken.IsActive)
                 return Errors.User.NotFound; //TODO : исправить возвращаемый тип
@@ -53,7 +51,6 @@ namespace server.Features.Tokens
                 Email: userWithCurrentToken.Email,
                 UserName: userWithCurrentToken.UserName
             );
-
         }
     }
 }

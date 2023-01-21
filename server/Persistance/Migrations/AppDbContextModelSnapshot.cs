@@ -175,12 +175,13 @@ namespace server.Persistance.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserModelId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserModelId");
 
                     b.ToTable("RefreshTokens");
                 });
@@ -260,14 +261,14 @@ namespace server.Persistance.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fe45dcbc-4fe1-45a9-94d5-04acd34f3131",
+                            ConcurrencyStamp = "bfafa360-764f-4822-9bfd-45ddaf2ac28a",
                             DisplayName = "myuser",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "MYUSER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGf3ciNzdHYcpcJHTyvhJ7GM9Gii74Qxf27TIcyQ7AxPcbulZWG+BOVf+cLo2mit1Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAyyi/aZ/l69mtd3Il3BdHssI/4Ol3B74b3E/5gmkeY4sPGe6/9EXXKsTtopEbeMKA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "eb729a6c-6b23-4867-ad53-7471985407f1",
+                            SecurityStamp = "aa494177-3af7-4b10-a290-5f679cc696e9",
                             TwoFactorEnabled = false,
                             UserName = "myuser"
                         });
@@ -326,11 +327,11 @@ namespace server.Persistance.Migrations
 
             modelBuilder.Entity("server.Domain.Models.RefreshToken", b =>
                 {
-                    b.HasOne("server.Domain.Models.UserModel", "User")
+                    b.HasOne("server.Domain.Models.UserModel", null)
                         .WithMany("RefreshTokens")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
+                        .HasForeignKey("UserModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("server.Domain.Models.UserModel", b =>
