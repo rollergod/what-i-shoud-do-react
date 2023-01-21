@@ -175,14 +175,14 @@ namespace server.Persistance.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UserModelId")
+                    b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserModelId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("server.Domain.Models.UserModel", b =>
@@ -260,14 +260,14 @@ namespace server.Persistance.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b7daf756-1da5-438a-9144-e8ef8ead2d6c",
+                            ConcurrencyStamp = "fe45dcbc-4fe1-45a9-94d5-04acd34f3131",
                             DisplayName = "myuser",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "MYUSER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGQ7g1SmGOTMzC+QsnTJq+AewiS6kFEIdh1M3Ft5dBO9ODi4sBDaeJznUvYsidB4Sw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGf3ciNzdHYcpcJHTyvhJ7GM9Gii74Qxf27TIcyQ7AxPcbulZWG+BOVf+cLo2mit1Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0a805dde-d22a-49ff-8064-31a4d5b2f6a3",
+                            SecurityStamp = "eb729a6c-6b23-4867-ad53-7471985407f1",
                             TwoFactorEnabled = false,
                             UserName = "myuser"
                         });
@@ -326,9 +326,11 @@ namespace server.Persistance.Migrations
 
             modelBuilder.Entity("server.Domain.Models.RefreshToken", b =>
                 {
-                    b.HasOne("server.Domain.Models.UserModel", null)
+                    b.HasOne("server.Domain.Models.UserModel", "User")
                         .WithMany("RefreshTokens")
-                        .HasForeignKey("UserModelId");
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("server.Domain.Models.UserModel", b =>

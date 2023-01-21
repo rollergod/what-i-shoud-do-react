@@ -10,5 +10,8 @@ namespace server.Domain.Models
         public bool IsExpired => DateTimeOffset.Now >= Expires;
         public bool IsRevoked => Revoked != null;
         public bool IsActive => !IsRevoked && !IsExpired;
+
+
+        public UserModel User { get; set; }
     }
 }

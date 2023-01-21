@@ -1,0 +1,7 @@
+@host=http://localhost:5058
+POST {{host}}/api/account/refreshToken
+Content-Type: application/json
+
+{
+    "RefreshToken" : "LyqQCw5EFeLq1XXyXhQlm6LTdOhgs5cluHrHBneWTwUcpZnPxx1nHs84KuqO3DUmRRXQLoCB9I9NIFuj0cEf%2Fg%3D%3D"
+}

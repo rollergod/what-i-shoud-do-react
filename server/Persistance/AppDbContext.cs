@@ -20,6 +20,8 @@ namespace server.Persistance
             _configuration = configuration;
         }
 
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             var hasher = new PasswordHasher<IdentityUser>();

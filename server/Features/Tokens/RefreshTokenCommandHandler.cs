@@ -1,28 +1,33 @@
-using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using ErrorOr;
-using MediatR;
 using server.Abstractions;
 using server.Domain.Contracts.Responses;
 using server.Persistance;
 using server.Domain.Errors;
 using server.Domain.Models;
 using server.Services.Jwt;
+using server.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace server.Features.Tokens
 {
     public sealed class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand, ErrorOr<RefreshTokenResponse>>
     {
         private readonly AppDbContext _context;
-        private readonly JwtProvider _jwtProvider;
+        private readonly IJwtProvider _jwtProvider;
 
-        public RefreshTokenCommandHandler(AppDbContext context, JwtProvider jwtProvider)
+        public RefreshTokenCommandHandler(AppDbContext context, IJwtProvider jwtProvider)
         {
             _context = context;
             _jwtProvider = jwtProvider;
         }
         public async Task<ErrorOr<RefreshTokenResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            var userWithCurrentToken = _context.Users.SingleOrDefault(x => x.RefreshTokens.Any(t => t.Token == request.model.RefreshToken));
+            var test = Uri.UnescapeDataString(request.model.RefreshToken); //поменять имя
+            var users = _context.Users.Include(t => t.RefreshTokens).ToList();
+            var userWithCurrentToken = _context.Users.SingleOrDefault(x => x.RefreshTokens.Any(t => t.Token == test));
+            var usersWithInclude = _context.Users.Include(t => t.RefreshTokens).SingleOrDefault(x => x.RefreshTokens.Any(t => t.Token == test));
+            //последний вариант рабочий
 
             if (userWithCurrentToken is null)
                 return Errors.User.NotFound;

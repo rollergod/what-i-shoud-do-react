@@ -4,8 +4,8 @@ POST {{host}}/api/account/register
 Content-Type: application/json
 
 {   
-    "Name" : "Renzad228",
+    "Name" : "Rollergod",
     "Password" :"Pa55sw0rd!123",
-    "Email" : "Renzad228@yandex.ru",
+    "Email" : "Rollergod@yandex.ru",
     "ImageName" : ""
 }
