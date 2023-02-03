@@ -39,7 +39,7 @@ namespace server.Services.Jwt
                     new Claim(JwtRegisteredClaimNames.Email,user.Email),
                 }),
 
-                Expires = DateTime.Now.AddMinutes(_jwtOptions.Expiry),
+                Expires = DateTime.UtcNow.AddMinutes(_jwtOptions.Expiry),
 
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),

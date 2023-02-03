@@ -44,7 +44,7 @@ namespace server.Features.Accounts.Login
 
             removeOldRefreshTokens(existingUser);
 
-            _context.Update(existingUser);
+            _context.Update(existingUser); // TODO : создать сервис?
             await _context.SaveChangesAsync();
 
             return new LoginResponse(

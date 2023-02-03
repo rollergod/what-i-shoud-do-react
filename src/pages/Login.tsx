@@ -1,6 +1,7 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.css";
-import axios from '../api/axios';
+// import axios from '../api/axiosInstance';
+import axiosInstance from '../api/axiosInstance';
 import { API_URLS } from '../api/api_constants';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,7 +32,7 @@ const Login = () => {
         };
 
         try {
-            await axios.post(API_URLS.LOGIN, loginRequest, {
+            await axiosInstance.post(API_URLS.LOGIN, loginRequest, {
                 withCredentials: true,
             })
                 .then(async resp => {

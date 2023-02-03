@@ -84,7 +84,7 @@ namespace server.Controllers
             // append cookie with refresh token to the http response
             var cookieOptions = new CookieOptions
             {
-                HttpOnly = true,
+                // HttpOnly = true, // тестинг
                 Expires = DateTime.UtcNow.AddDays(7)
             };
             Response.Cookies.Append("refreshToken", token, cookieOptions);

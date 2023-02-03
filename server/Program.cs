@@ -1,6 +1,8 @@
+using System.Text;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using server.Domain.Models;
 using server.OptionsSetup;
 using server.Persistance;
@@ -14,7 +16,21 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer();
+    .AddJwtBearer(opt =>
+    {
+        opt.TokenValidationParameters = new()
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration.GetSection("JwtOptions:Issuer").Value,
+            ValidAudience = builder.Configuration.GetSection("JwtOptions:Audience").Value,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JwtOptions:Secret").Value)),
+            ClockSkew = TimeSpan.FromMinutes(0)
+        };
+    });
 
 builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
 
@@ -27,7 +43,7 @@ builder.Services.AddIdentityCore<UserModel>(o => o.SignIn.RequireConfirmedEmail 
 builder.Services.ConfigureOptions<JwtOptionsSetup>(); // когда инжектим JwtOptions срабатывает эта конфигурация
 // builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));  аналог
 
-builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+// builder.Services.ConfigureOptions<JwtBearerOptionsSetup>(); // не работает
 
 builder.Services.AddMediatR(typeof(Program).Assembly);
 

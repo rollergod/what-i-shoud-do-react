@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { uploadFile } from "../firebase/firebaseApi";
 import { API_URLS } from "../api/api_constants";
 
-import axios from "../api/axios";
+import axios from "../api/axiosInstance";
 import { AxiosResponse } from "axios";
 
 type registerRequest = { Name: string, Password: string, Email: string, ImageName: string };

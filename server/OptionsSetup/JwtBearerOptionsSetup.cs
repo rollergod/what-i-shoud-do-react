@@ -1,4 +1,3 @@
-using System.Xml.Schema;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
@@ -24,10 +23,10 @@ namespace server.OptionsSetup
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = _jwtOptions.Issuer,
-                ValidAudience = _jwtOptions.Audience,
+                ValidIssuer = "ReactAuth",
+                ValidAudience = "Postman",
                 IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(_jwtOptions.Secret)),
+                    Encoding.UTF8.GetBytes("super-secret-key")),
                 ClockSkew = TimeSpan.FromMinutes(0)
             };
         }
