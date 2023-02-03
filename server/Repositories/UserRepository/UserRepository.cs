@@ -1,19 +1,20 @@
 using Microsoft.AspNetCore.Identity;
+using server.Domain.Models;
 using server.Persistance;
 using server.Repositories.Interfaces;
 
 namespace server.Repositories
 {
-    public abstract class BaseRepository<T> : IBaseRepository<T> where T : IdentityUser
+    public class UserRepository : IUserRepository
     {
         private readonly AppDbContext _context;
 
-        public BaseRepository(AppDbContext context)
+        public UserRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<bool> Update(T model)
+        public async Task<bool> Update(UserModel model)
         {
             _context.Update(model);
             return await SaveChangesAsync();

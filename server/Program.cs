@@ -6,6 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 using server.Domain.Models;
 using server.OptionsSetup;
 using server.Persistance;
+using server.Repositories;
+using server.Repositories.Interfaces;
 using server.Services.Interfaces;
 using server.Services.Jwt;
 
@@ -33,6 +35,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
+builder.Services.AddSingleton(typeof(IBaseRepository<>), typeof(UserRepository<>));
 
 builder.Services.AddDbContext<AppDbContext>();
 
