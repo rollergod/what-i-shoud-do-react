@@ -35,7 +35,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
-builder.Services.AddSingleton(typeof(IBaseRepository<>), typeof(UserRepository<>));
+builder.Services.AddSingleton<IUserRepository, UserRepository>();
 
 builder.Services.AddDbContext<AppDbContext>();
 

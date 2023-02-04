@@ -8,18 +8,24 @@ using server.Domain.Models;
 using server.Services.Jwt;
 using server.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using server.Repositories.Interfaces;
 
 namespace server.Features.Tokens
 {
     public sealed class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand, ErrorOr<RefreshTokenResponse>>
     {
         private readonly AppDbContext _context;
+        private readonly IUserRepository _userRepository;
         private readonly IJwtProvider _jwtProvider;
 
-        public RefreshTokenCommandHandler(AppDbContext context, IJwtProvider jwtProvider)
+        public RefreshTokenCommandHandler(
+            AppDbContext context,
+            IJwtProvider jwtProvider,
+            IUserRepository userRepository)
         {
             _context = context;
             _jwtProvider = jwtProvider;
+            _userRepository = userRepository;
         }
         public async Task<ErrorOr<RefreshTokenResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
@@ -33,15 +39,17 @@ namespace server.Features.Tokens
             RefreshToken refreshToken = userWithCurrentToken.RefreshTokens.SingleOrDefault(x => x.Token == currentRefreshToken);
 
             if (!refreshToken.IsActive)
-                return Errors.User.NotFound; //TODO : исправить возвращаемый тип
+                return Errors.Token.RefreshTokenIsntActive;
 
             refreshToken.Revoked = DateTime.UtcNow;
 
             var newRefreshToken = _jwtProvider.GenerateRefreshToken();
             userWithCurrentToken.RefreshTokens.Add(newRefreshToken);
 
-            _context.Update(userWithCurrentToken);
-            await _context.SaveChangesAsync();
+            var isUpdated = await _userRepository.Update(userWithCurrentToken);
+
+            if (!isUpdated)
+                return Errors.Server.BadSavingChanges;
 
             string accessToken = _jwtProvider.GenerateJwt(userWithCurrentToken);
 

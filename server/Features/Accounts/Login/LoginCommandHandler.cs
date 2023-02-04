@@ -5,6 +5,7 @@ using server.Domain.Contracts.Responses;
 using server.Domain.Errors;
 using server.Domain.Models;
 using server.Persistance;
+using server.Repositories.Interfaces;
 using server.Services.Interfaces;
 
 namespace server.Features.Accounts.Login
@@ -12,17 +13,20 @@ namespace server.Features.Accounts.Login
     public sealed class LoginCommandHandler : ICommandHandler<LoginCommand, ErrorOr<LoginResponse>>
     {
         private readonly AppDbContext _context;
+        private readonly IUserRepository _userRepository;
         private readonly UserManager<UserModel> _userManager;
         private readonly IJwtProvider _jwtProvider;
 
         public LoginCommandHandler(
             UserManager<UserModel> userManager,
             IJwtProvider jwtProvider,
-            AppDbContext context)
+            AppDbContext context,
+            IUserRepository userRepository)
         {
             _userManager = userManager;
             _jwtProvider = jwtProvider;
             _context = context;
+            _userRepository = userRepository;
         }
 
         public async Task<ErrorOr<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -44,8 +48,10 @@ namespace server.Features.Accounts.Login
 
             removeOldRefreshTokens(existingUser);
 
-            _context.Update(existingUser); // TODO : создать сервис?
-            await _context.SaveChangesAsync();
+            var isUpdated = await _userRepository.Update(existingUser);
+
+            if (!isUpdated)
+                return Errors.Server.BadSavingChanges;
 
             return new LoginResponse(
                 message: "Authorization is successfull",

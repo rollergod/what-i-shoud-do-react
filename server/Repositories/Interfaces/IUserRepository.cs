@@ -4,7 +4,7 @@ namespace server.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        public Task<bool> Update(UserModel model);
-        public Task<bool> SaveChangesAsync();
+        Task<bool> Update(UserModel model);
+        Task<bool> SaveChangesAsync();
     }
 }
