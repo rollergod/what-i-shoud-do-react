@@ -20,7 +20,10 @@ const Home = () => {
 
     const testPrivateMethod = async (): Promise<void> => {
         try {
-            await axiosInstance.get(API_URLS.PRIVATE_METHOD)
+            await axiosInstance.get(API_URLS.PRIVATE_METHOD,
+                {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('jwt')}` }
+                }) // TODO : axiosInstance не меняет jwt из-за этого я ловлю 401 unatuthorized
                 .then((resp) => {
                     console.log(resp);
                 });

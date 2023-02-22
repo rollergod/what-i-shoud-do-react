@@ -14,7 +14,6 @@ namespace server.Features.Tokens
 {
     public sealed class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand, ErrorOr<RefreshTokenResponse>>
     {
-        private readonly AppDbContext _context;
         private readonly IUserRepository _userRepository;
         private readonly IJwtProvider _jwtProvider;
 
@@ -23,15 +22,13 @@ namespace server.Features.Tokens
             IJwtProvider jwtProvider,
             IUserRepository userRepository)
         {
-            _context = context;
             _jwtProvider = jwtProvider;
             _userRepository = userRepository;
         }
         public async Task<ErrorOr<RefreshTokenResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
             var currentRefreshToken = Uri.UnescapeDataString(request.model.RefreshToken);
-            var userWithCurrentToken = _context.Users.Include(t => t.RefreshTokens)
-                                                     .SingleOrDefault(x => x.RefreshTokens.Any(t => t.Token == currentRefreshToken));
+            var userWithCurrentToken = await _userRepository.GetUserWithCurrentRefreshToken(currentRefreshToken);
 
             if (userWithCurrentToken is null)
                 return Errors.User.NotFound;

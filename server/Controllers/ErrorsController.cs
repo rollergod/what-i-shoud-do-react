@@ -6,6 +6,7 @@ namespace server.Controllers
     [Route("/error")]
     public class ErrorsController : ControllerBase
     {
+        [HttpGet]
         public IActionResult Problem(List<Error> errors)
         {
             var firstError = errors[0];

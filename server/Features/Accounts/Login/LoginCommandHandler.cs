@@ -4,7 +4,6 @@ using server.Abstractions;
 using server.Domain.Contracts.Responses;
 using server.Domain.Errors;
 using server.Domain.Models;
-using server.Persistance;
 using server.Repositories.Interfaces;
 using server.Services.Interfaces;
 
@@ -12,7 +11,6 @@ namespace server.Features.Accounts.Login
 {
     public sealed class LoginCommandHandler : ICommandHandler<LoginCommand, ErrorOr<LoginResponse>>
     {
-        private readonly AppDbContext _context;
         private readonly IUserRepository _userRepository;
         private readonly UserManager<UserModel> _userManager;
         private readonly IJwtProvider _jwtProvider;
@@ -20,12 +18,10 @@ namespace server.Features.Accounts.Login
         public LoginCommandHandler(
             UserManager<UserModel> userManager,
             IJwtProvider jwtProvider,
-            AppDbContext context,
             IUserRepository userRepository)
         {
             _userManager = userManager;
             _jwtProvider = jwtProvider;
-            _context = context;
             _userRepository = userRepository;
         }
 

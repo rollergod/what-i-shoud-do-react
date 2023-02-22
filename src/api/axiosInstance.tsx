@@ -9,11 +9,14 @@ let accessToken: string | null = localStorage.getItem('jwt'); // не обнов
 
 const axiosInstance = axios.create({
     baseURL: host,
-    headers: { 'Authorization': `Bearer ${accessToken}` }
+    headers: { 'Authorization': `Bearer ${localStorage.getItem('jwt')}` }
 });
 
 axiosInstance.interceptors.request.use(async req => {
-    console.log(accessToken);
+    if (req.url === 'account/login')
+        return req; //TODO прибраться здесь
+
+    console.log('access token', accessToken);
     if (!accessToken) {
         accessToken = localStorage.getItem('jwt');
         req.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -23,6 +26,8 @@ axiosInstance.interceptors.request.use(async req => {
     const isExpired: boolean = decodedJwt.exp * 1000 < Date.now();
     if (!isExpired) return req;
 
+    console.log('old refreshToken', cookies.get('refreshToken'));
+
     const response = await axios.post(host + API_URLS.REFRESH, {
         refreshToken: cookies.get('refreshToken')
     }).then(tokens => {
@@ -30,7 +35,7 @@ axiosInstance.interceptors.request.use(async req => {
         localStorage.removeItem('jwt');
         localStorage.setItem('jwt', tokens.data.token);
         cookies.set('refreshToken', tokens.data.refreshToken);
-
+        console.log('new refreshToken', tokens.data.refreshToken);
         accessToken = tokens.data.token;
     });
 
@@ -40,6 +45,3 @@ axiosInstance.interceptors.request.use(async req => {
 })
 
 export default axiosInstance;
-
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3YThlNjc3Mi1mM2QzLTRiMTQtOGZhMi02MTVkNDRhMWFiNjUiLCJpYXQiOjE2NzUyOTA1MjIsIm5hbWUiOiJSb2xsZXJnb2QiLCJlbWFpbCI6IlJvbGxlcmdvZEB5YW5kZXgucnUiLCJuYmYiOjE2NzUyOTA1MjIsImV4cCI6MTY3NTI5MDU4MiwiaXNzIjoiUmVhY3RBdXRoIiwiYXVkIjoiUG9zdG1hbiJ9.Nv19Lz8W2IIPcXKCcCM9IA66hKp9uFRfwoKWgFzUwUI
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1ZWI4NjJjMS1iMjI5LTQ0ODUtYjEwMS1jNzk4ODRkOGUzNjEiLCJpYXQiOjE2NzUyOTA2MzQsIm5hbWUiOiJSb2xsZXJnb2QiLCJlbWFpbCI6IlJvbGxlcmdvZEB5YW5kZXgucnUiLCJuYmYiOjE2NzUyOTA2MzQsImV4cCI6MTY3NTI5MDY5NCwiaXNzIjoiUmVhY3RBdXRoIiwiYXVkIjoiUG9zdG1hbiJ9.e-QvG3jZB5XvOix8mdnbG3aMAzF2O2HCKgV-ivh-4Co
