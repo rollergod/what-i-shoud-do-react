@@ -1,20 +1,22 @@
 import React from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentImageRef, deleteCredentials } from '../store/slices/authSlice';
-import { getImage } from '../firebase/firebaseApi';
+import { useDispatch } from 'react-redux';
+import { deleteCredentials } from '../store/slices/authSlice';
 import { API_URLS } from '../api/api_constants';
 import axiosInstance from '../api/axiosInstance';
-import axios from 'axios';
+
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     // const imageRef = useSelector(selectCurrentImageRef);
     const imageRef: string = localStorage.getItem('imageRef');
     const userName: string = localStorage.getItem('userName');
 
     const handleLogOut = (): void => {
+        navigate('/login', { replace: true });
         dispatch(deleteCredentials({}));
     }
 
@@ -23,7 +25,7 @@ const Home = () => {
             await axiosInstance.get(API_URLS.PRIVATE_METHOD,
                 {
                     headers: { 'Authorization': `Bearer ${localStorage.getItem('jwt')}` }
-                }) // TODO : axiosInstance не меняет jwt из-за этого я ловлю 401 unatuthorized
+                })
                 .then((resp) => {
                     console.log(resp);
                 });

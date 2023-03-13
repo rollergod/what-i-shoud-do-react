@@ -5,7 +5,6 @@ import { Cookies } from "react-cookie";
 import { API_URLS, host } from "./api_constants";
 
 const cookies = new Cookies();
-let accessToken: string | null = localStorage.getItem('jwt'); // не обновляется
 
 const axiosInstance = axios.create({
     baseURL: host,
@@ -13,10 +12,10 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(async req => {
+    let accessToken: string | null = localStorage.getItem('jwt');
     if (req.url === 'account/login')
-        return req; //TODO прибраться здесь
+        return req;
 
-    console.log('access token', accessToken);
     if (!accessToken) {
         accessToken = localStorage.getItem('jwt');
         req.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -26,20 +25,17 @@ axiosInstance.interceptors.request.use(async req => {
     const isExpired: boolean = decodedJwt.exp * 1000 < Date.now();
     if (!isExpired) return req;
 
-    console.log('old refreshToken', cookies.get('refreshToken'));
 
     const response = await axios.post(host + API_URLS.REFRESH, {
         refreshToken: cookies.get('refreshToken')
     }).then(tokens => {
-        console.log('token', tokens);
         localStorage.removeItem('jwt');
         localStorage.setItem('jwt', tokens.data.token);
         cookies.set('refreshToken', tokens.data.refreshToken);
-        console.log('new refreshToken', tokens.data.refreshToken);
         accessToken = tokens.data.token;
     });
 
-    req.headers['Authorization'] = `Bearer ${accessToken}`; //переустанавливаем
+    req.headers['Authorization'] = `Bearer ${accessToken}`; // переустанавливаем
 
     return req;
 })

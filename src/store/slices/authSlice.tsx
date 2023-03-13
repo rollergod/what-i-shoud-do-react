@@ -32,7 +32,7 @@ const authSlice: Slice<AuthState> = createSlice({
         deleteCredentials: (state) => {
             state.user = null;
             state.token = null;
-            localStorage.clear(); //todo : переделать выход из приложения
+            localStorage.clear();
         }
     }
 });
@@ -41,6 +41,6 @@ export const { setCredentials, deleteCredentials } = authSlice.actions;
 
 export default authSlice.reducer;
 
-export const selectCurrentUser = (state): { email: string, imageRef: string } => state.auth.user; //TODO: сделать типы
+export const selectCurrentUser = (state): { email: string, imageRef: string } => state.auth.user;
 export const selectCurrentImageRef = (state): string => state.auth.user.imageRef;
 export const selectCurrentToken = (state): string => state.auth.token;

@@ -1,15 +1,13 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.css";
-// import axios from '../api/axiosInstance';
 import axiosInstance from '../api/axiosInstance';
 import { API_URLS } from '../api/api_constants';
-
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCredentials } from '../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
-
 import { getImage } from '../firebase/firebaseApi';
+import { InputElement } from '../components/InputElement';
 
 type loginRequest = { email: string, password: string };
 type loginResponse = { responseMessage: string, accessToken: string, imageName: string };
@@ -47,7 +45,7 @@ const Login = () => {
                         password: password,
                         token: resp.data.accessToken,
                         imageRef: imageUrl
-                    })); // TODO : Persist Store?
+                    }));
 
                     navigate('/');
                 })
@@ -67,7 +65,7 @@ const Login = () => {
                         <form className="card">
                             <div className="card-body">
 
-                                <div className="row align-items-center py-3">
+                                {/* <div className="row align-items-center py-3">
                                     <div className="col-md-3 ps-5">
 
                                         <h6 className="mb-0">Email address</h6>
@@ -84,11 +82,13 @@ const Login = () => {
                                         />
 
                                     </div>
-                                </div>
+                                </div> */}
+
+                                <InputElement type={'email'} value={email} setValue={setEmail}></InputElement>
 
                                 <hr className="mx-n3" />
 
-                                <div className="row align-items-center py-3">
+                                {/* <div className="row align-items-center py-3">
                                     <div className="col-md-3 ps-5">
 
                                         <h6 className="mb-0">Password</h6>
@@ -103,7 +103,10 @@ const Login = () => {
                                         />
 
                                     </div>
-                                </div>
+                                </div> */}
+
+                                <InputElement type={'password'} value={password} setValue={setPassword}></InputElement>
+
 
                                 <hr className="mx-n3" />
 
