@@ -6,20 +6,26 @@ import { API_URLS } from "../api/api_constants";
 
 import axios from "../api/axiosInstance";
 import { AxiosResponse } from "axios";
+import { InputElement } from "../components/InputElement";
+
+import { useNavigate } from "react-router-dom";
 
 type registerRequest = { Name: string, Password: string, Email: string, ImageName: string };
 type registerResponse = { responseMessage: string };
 
 const Register = () => {
 
+    const navigate = useNavigate();
+
     const [name, setName] = React.useState<string>('');
     const [email, setEmail] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
 
-    const [imageUrl, setImageUrl] = React.useState<string>("");
+    const [imageUrl, setImageUrl] = React.useState<string>('');
     const [selectedImage, setSelectedImage] = React.useState<File>(null);
 
     const [response, setResponse] = React.useState<AxiosResponse<registerResponse>>(null);
+    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
@@ -44,11 +50,12 @@ const Register = () => {
                 .then((resp) => {
                     setResponse(resp.data)
                 });
-        } catch (error) {
-            console.log(error);
-        }
 
-        uploadFile(selectedImage); //загрузка изображения в firebase
+            uploadFile(selectedImage);
+            navigate('/', { replace: true });
+        } catch (error) {
+            setErrorMessage(error.response.data.title);
+        }
     };
 
     return (
@@ -60,65 +67,38 @@ const Register = () => {
                         <h1 className="text-white mb-4">Apply for a job</h1>
 
                         <form className="card">
+
+                            {
+                                errorMessage ??
+                                <h4 className='text-danger mt-4'>Something went wrong: {errorMessage}</h4>
+                            }
+
                             <div className="card-body">
-
-                                <div className="row align-items-center pt-4 pb-3">
-                                    <div className="col-md-3 ps-5">
-
-                                        <h6 className="mb-0">Full name</h6>
-
-                                    </div>
-                                    <div className="col-md-9 pe-5">
-
-                                        <input
-                                            onChange={(e) => setName(e.target.value)}
-                                            value={name}
-                                            type="text"
-                                            className="form-control form-control-lg"
-                                        />
-
-                                    </div>
-                                </div>
+                                {/* 
+                                <InputElement
+                                    header='Full Name'
+                                    placeholder='Ivan'
+                                    setValue={setName}
+                                    type='text'
+                                    value={name}></InputElement>
 
                                 <hr className="mx-n3" />
 
-                                <div className="row align-items-center py-3">
-                                    <div className="col-md-3 ps-5">
-
-                                        <h6 className="mb-0">Email address</h6>
-
-                                    </div>
-                                    <div className="col-md-9 pe-5">
-
-                                        <input
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            value={email}
-                                            type="email"
-                                            className="form-control form-control-lg"
-                                            placeholder="example@example.com"
-                                        />
-
-                                    </div>
-                                </div>
+                                <InputElement
+                                    header='Email Address'
+                                    placeholder='example@example.com'
+                                    setValue={setEmail}
+                                    type='email'
+                                    value={email}></InputElement>
 
                                 <hr className="mx-n3" />
 
-                                <div className="row align-items-center py-3">
-                                    <div className="col-md-3 ps-5">
-
-                                        <h6 className="mb-0">Password</h6>
-
-                                    </div>
-                                    <div className="col-md-9 pe-5">
-
-                                        <input
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            value={password}
-                                            className="form-control"
-                                        />
-
-                                    </div>
-                                </div>
+                                <InputElement
+                                    header='Password'
+                                    placeholder='ivanovivan!123'
+                                    setValue={setPassword}
+                                    type='password'
+                                    value={password}></InputElement> */}
 
                                 <hr className="mx-n3" />
 
@@ -138,7 +118,6 @@ const Register = () => {
                                             type="file"
                                         />
                                         <img id="chosen-image" className="w-25 h-25" src={imageUrl} />
-                                        {/* //TODO : переделать стили */}
 
                                     </div>
                                 </div>
@@ -154,9 +133,8 @@ const Register = () => {
 
                     </div>
                 </div>
-            </div >
-        </section >
-
+            </div>
+        </section>
     )
 };
 

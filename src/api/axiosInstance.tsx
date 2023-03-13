@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(async req => {
     let accessToken: string | null = localStorage.getItem('jwt');
-    if (req.url === 'account/login')
+    if (req.url === 'account/login' || req.url === 'account/register')
         return req;
 
     if (!accessToken) {

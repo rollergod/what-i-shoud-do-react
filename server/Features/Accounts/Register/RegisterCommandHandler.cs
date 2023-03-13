@@ -21,7 +21,7 @@ namespace server.Features.Accounts.Register
             var isUserExist = await _userManager.FindByEmailAsync(request.model.Email);
 
             if (isUserExist is not null)
-                return Errors.User.BadCredentials;
+                return Errors.User.DuplicateEmail;
 
             var userModel = new UserModel
             {

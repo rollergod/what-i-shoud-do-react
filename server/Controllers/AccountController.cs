@@ -50,7 +50,7 @@ namespace server.Controllers
 
             ErrorOr<LoginResponse> result = await _sender.Send(command);
 
-            if (!string.IsNullOrEmpty(result.Value.refreshToken))
+            if (result.Value != null && !string.IsNullOrEmpty(result.Value.refreshToken))
                 setTokenCookie(result.Value.refreshToken);
 
             return result.MatchFirst(

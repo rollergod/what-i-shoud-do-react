@@ -9,10 +9,20 @@ import { AxiosResponse } from 'axios';
 import { getImage } from '../firebase/firebaseApi';
 import { InputElement } from '../components/InputElement';
 
+import { useForm } from 'react-hook-form';
+
 type loginRequest = { email: string, password: string };
 type loginResponse = { responseMessage: string, accessToken: string, imageName: string };
 
 const Login = () => {
+
+    const {
+        register,
+        formState: { errors },
+        handleSubmit
+    } = useForm({
+        mode: 'onBlur'
+    });
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -21,9 +31,7 @@ const Login = () => {
 
     const [response, setResponse] = React.useState<AxiosResponse<loginResponse>>(null); //TODO: как сделать нормально работающий тип?
 
-    const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        event.preventDefault();
-
+    const onSubmit = async () => {
         const loginRequest: loginRequest = {
             email: email,
             password: password
@@ -40,12 +48,12 @@ const Login = () => {
                     localStorage.setItem('imageRef', imageUrl);
                     localStorage.setItem('userName', resp.data.userName);
 
-                    dispatch(setCredentials({
-                        email: email,
-                        password: password,
-                        token: resp.data.accessToken,
-                        imageRef: imageUrl
-                    }));
+                    // dispatch(setCredentials({
+                    //     email: email,
+                    //     password: password,
+                    //     token: resp.data.accessToken,
+                    //     imageRef: imageUrl
+                    // }));
 
                     navigate('/');
                 })
@@ -62,56 +70,39 @@ const Login = () => {
 
                         <h1 className="text-white mb-4">Apply for a job</h1>
 
-                        <form className="card">
+                        <form className="card" onSubmit={handleSubmit(onSubmit)}>
                             <div className="card-body">
 
-                                {/* <div className="row align-items-center py-3">
-                                    <div className="col-md-3 ps-5">
+                                <InputElement
+                                    register={register}
+                                    header='Email Address'
+                                    type='email'
+                                    value={email}
+                                    setValue={setEmail}
+                                    placeholder='example@example.com'></InputElement>
 
-                                        <h6 className="mb-0">Email address</h6>
-
-                                    </div>
-                                    <div className="col-md-9 pe-5">
-
-                                        <input
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            value={email}
-                                            type="email"
-                                            className="form-control form-control-lg"
-                                            placeholder="example@example.com"
-                                        />
-
-                                    </div>
-                                </div> */}
-
-                                <InputElement type={'email'} value={email} setValue={setEmail}></InputElement>
+                                <div>
+                                    {errors?.EmailAddress && <p>{errors.EmailAddress.message.toString() || "Error"}</p>}
+                                </div>
 
                                 <hr className="mx-n3" />
 
-                                {/* <div className="row align-items-center py-3">
-                                    <div className="col-md-3 ps-5">
+                                <InputElement
+                                    register={register}
+                                    header='Password'
+                                    type='password'
+                                    value={password}
+                                    setValue={setPassword}
+                                    placeholder='ivanovivan!123'></InputElement>
 
-                                        <h6 className="mb-0">Password</h6>
-
-                                    </div>
-                                    <div className="col-md-9 pe-5">
-
-                                        <input
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            value={password}
-                                            className="form-control"
-                                        />
-
-                                    </div>
-                                </div> */}
-
-                                <InputElement type={'password'} value={password} setValue={setPassword}></InputElement>
-
+                                <div>
+                                    {errors?.Password && <p>{errors.Password.message.toString() || "Error"}</p>}
+                                </div>
 
                                 <hr className="mx-n3" />
 
                                 <div className="px-5 py-4">
-                                    <button onClick={handleSubmit} className="btn btn-primary btn-lg">Login</button>
+                                    <input type='submit' className="btn btn-primary btn-lg"></input>
                                 </div>
 
                             </div>
@@ -119,8 +110,8 @@ const Login = () => {
 
                     </div>
                 </div>
-            </div >
-        </section >
+            </div>
+        </section>
     );
 };
 
