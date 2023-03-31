@@ -12,8 +12,8 @@ const Home = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     // const imageRef = useSelector(selectCurrentImageRef);
-    const imageRef: string = localStorage.getItem('imageRef');
-    const userName: string = localStorage.getItem('userName');
+    const imageRef = localStorage.getItem('imageRef');
+    const userName = localStorage.getItem('userName');
 
     const handleLogOut = (): void => {
         navigate('/login', { replace: true });
@@ -22,13 +22,11 @@ const Home = () => {
 
     const testPrivateMethod = async (): Promise<void> => {
         try {
-            await axiosInstance.get(API_URLS.PRIVATE_METHOD,
+            const res = await axiosInstance.get(API_URLS.PRIVATE_METHOD,
                 {
                     headers: { 'Authorization': `Bearer ${localStorage.getItem('jwt')}` }
-                })
-                .then((resp) => {
-                    console.log(resp);
                 });
+            console.log('PRIVATE METHOD', res);
         } catch (error) {
             console.log(error);
         }

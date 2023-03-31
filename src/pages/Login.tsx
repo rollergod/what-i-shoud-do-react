@@ -3,16 +3,18 @@ import "bootstrap/dist/css/bootstrap.css";
 import axiosInstance from '../api/axiosInstance';
 import { API_URLS } from '../api/api_constants';
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { AxiosResponse } from 'axios';
 import { getImage } from '../firebase/firebaseApi';
 import { InputElement } from '../components/InputElement';
 
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 type loginRequest = { email: string, password: string };
-type loginResponse = { responseMessage: string, accessToken: string, imageName: string };
+
+interface IFormInputs {
+    email: string,
+    password: string
+};
 
 const Login = () => {
 
@@ -20,21 +22,19 @@ const Login = () => {
         register,
         formState: { errors },
         handleSubmit
-    } = useForm({
-        mode: 'onBlur'
+    } = useForm<IFormInputs>({
+        mode: 'onChange'
     });
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [email, setEmail] = React.useState<string>('');
-    const [password, setPassword] = React.useState<string>('');
 
-    const [response, setResponse] = React.useState<AxiosResponse<loginResponse>>(null); //TODO: как сделать нормально работающий тип?
+    const onSubmit: SubmitHandler<IFormInputs> = async (values) => {
+        console.log(values);
 
-    const onSubmit = async () => {
         const loginRequest: loginRequest = {
-            email: email,
-            password: password
+            email: values.email,
+            password: values.password
         };
 
         try {
@@ -47,13 +47,6 @@ const Login = () => {
                     const imageUrl = await getImage(resp.data.imageName);
                     localStorage.setItem('imageRef', imageUrl);
                     localStorage.setItem('userName', resp.data.userName);
-
-                    // dispatch(setCredentials({
-                    //     email: email,
-                    //     password: password,
-                    //     token: resp.data.accessToken,
-                    //     imageRef: imageUrl
-                    // }));
 
                     navigate('/');
                 })
@@ -74,35 +67,45 @@ const Login = () => {
                             <div className="card-body">
 
                                 <InputElement
-                                    register={register}
+                                    name='email'
                                     header='Email Address'
+                                    placeHolder='example@example.com'
                                     type='email'
-                                    value={email}
-                                    setValue={setEmail}
-                                    placeholder='example@example.com'></InputElement>
-
-                                <div>
-                                    {errors?.EmailAddress && <p>{errors.EmailAddress.message.toString() || "Error"}</p>}
-                                </div>
+                                    register={{
+                                        ...register('email', {
+                                            required: `Field email is required`,
+                                            pattern: {
+                                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                                message: "invalid email address"
+                                            }
+                                        })
+                                    }}
+                                    errors={errors}
+                                />
 
                                 <hr className="mx-n3" />
 
                                 <InputElement
-                                    register={register}
+                                    name='password'
                                     header='Password'
+                                    placeHolder='ivanovivan!123'
                                     type='password'
-                                    value={password}
-                                    setValue={setPassword}
-                                    placeholder='ivanovivan!123'></InputElement>
-
-                                <div>
-                                    {errors?.Password && <p>{errors.Password.message.toString() || "Error"}</p>}
-                                </div>
+                                    register={{
+                                        ...register('password', {
+                                            required: `Field password is required`,
+                                            minLength: {
+                                                value: 5,
+                                                message: `Minimum 5 symbols`,
+                                            }
+                                        })
+                                    }}
+                                    errors={errors}
+                                />
 
                                 <hr className="mx-n3" />
 
                                 <div className="px-5 py-4">
-                                    <input type='submit' className="btn btn-primary btn-lg"></input>
+                                    <input type='submit' value='Login' className="btn btn-primary btn-lg"></input>
                                 </div>
 
                             </div>
@@ -114,6 +117,5 @@ const Login = () => {
         </section>
     );
 };
-
 
 export default Login; 

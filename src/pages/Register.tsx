@@ -9,17 +9,35 @@ import { AxiosResponse } from "axios";
 import { InputElement } from "../components/InputElement";
 
 import { useNavigate } from "react-router-dom";
+import { SubmitHandler, useForm } from 'react-hook-form';
+
 
 type registerRequest = { Name: string, Password: string, Email: string, ImageName: string };
 type registerResponse = { responseMessage: string };
 
+interface IFormInputs {
+    name: string,
+    email: string,
+    password: string,
+    imageUrl: string
+};
+
 const Register = () => {
+
+    const {
+        register,
+        formState: { errors },
+        handleSubmit
+    } = useForm<IFormInputs>({
+        mode: 'onChange'
+    });
+
 
     const navigate = useNavigate();
 
-    const [name, setName] = React.useState<string>('');
-    const [email, setEmail] = React.useState<string>('');
-    const [password, setPassword] = React.useState<string>('');
+    // const [name, setName] = React.useState<string>('');
+    // const [email, setEmail] = React.useState<string>('');
+    // const [password, setPassword] = React.useState<string>('');
 
     const [imageUrl, setImageUrl] = React.useState<string>('');
     const [selectedImage, setSelectedImage] = React.useState<File>(null);
@@ -35,13 +53,12 @@ const Register = () => {
         }
     };
 
-    const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        event.preventDefault();
-
+    const onSubmit: SubmitHandler<IFormInputs> = async (values) => {
+        console.log(values);
         const registerRequest: registerRequest = {
-            Name: name,
-            Password: password,
-            Email: email,
+            Name: values.name,
+            Password: values.password,
+            Email: values.email,
             ImageName: selectedImage.name,
         };
 
@@ -66,7 +83,7 @@ const Register = () => {
 
                         <h1 className="text-white mb-4">Apply for a job</h1>
 
-                        <form className="card">
+                        <form className="card" onSubmit={handleSubmit(onSubmit)}>
 
                             {
                                 errorMessage ??
@@ -74,31 +91,62 @@ const Register = () => {
                             }
 
                             <div className="card-body">
-                                {/* 
+
                                 <InputElement
+                                    name='name'
                                     header='Full Name'
-                                    placeholder='Ivan'
-                                    setValue={setName}
+                                    placeHolder='Ivan'
                                     type='text'
-                                    value={name}></InputElement>
+                                    register={{
+                                        ...register('name', {
+                                            required: `Field name is required`,
+                                            minLength: {
+                                                value: 2,
+                                                message: `Minimum 2 symbols`,
+                                            }
+                                        })
+                                    }}
+                                    errors={errors}
+                                />
 
                                 <hr className="mx-n3" />
 
                                 <InputElement
+                                    name='email'
                                     header='Email Address'
-                                    placeholder='example@example.com'
-                                    setValue={setEmail}
+                                    placeHolder='example@example.com'
                                     type='email'
-                                    value={email}></InputElement>
+                                    register={{
+                                        ...register('email', {
+                                            required: `Field email is required`,
+                                            pattern: {
+                                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                                message: "invalid email address"
+                                            }
+                                        })
+                                    }}
+                                    errors={errors}
+                                />
 
                                 <hr className="mx-n3" />
 
                                 <InputElement
+                                    name='password'
                                     header='Password'
-                                    placeholder='ivanovivan!123'
-                                    setValue={setPassword}
+                                    placeHolder='ivanovivan!123'
                                     type='password'
-                                    value={password}></InputElement> */}
+                                    register={{
+                                        ...register('password', {
+                                            required: `Field password is required`,
+                                            minLength: {
+                                                value: 5,
+                                                message: `Minimum 5 symbols`,
+                                            }
+                                        })
+                                    }}
+                                    errors={errors}
+                                />
+
 
                                 <hr className="mx-n3" />
 
@@ -125,8 +173,9 @@ const Register = () => {
                                 <hr className="mx-n3" />
 
                                 <div className="px-5 py-4">
-                                    <button onClick={handleSubmit} className="btn btn-primary btn-lg">Register</button>
+                                    <input type='submit' value='Register' className="btn btn-primary btn-lg"></input>
                                 </div>
+
 
                             </div>
                         </form>

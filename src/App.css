@@ -45,3 +45,7 @@
 .exit-link:hover {
   color: blue;
 }
+
+input.error {
+  border: 2px solid red;
+}

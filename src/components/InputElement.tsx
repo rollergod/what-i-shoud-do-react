@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { FC, forwardRef } from 'react';
 
-export const InputElement = ({ register, header, type, value, setValue, placeholder }) => {
-    console.log();
+interface InputProps {
+    header: string,
+    name: string,
+    placeHolder: string,
+    type: string,
+    register: any,
+    errors: any
+}
+
+export const InputElement: FC<InputProps> = ({ header, name, placeHolder, type, errors, register }) => {
+    console.log(errors);
     return (
         <div className="row align-items-center py-3">
             <div className="col-md-3 ps-5">
@@ -12,16 +21,13 @@ export const InputElement = ({ register, header, type, value, setValue, placehol
             <div className="col-md-9 pe-5">
 
                 <input
-                    {...register(header.replace(' ', ''), {
-                        required: `Поле "${header}" обязательно для ввода`,
-                    })}
-                    onChange={(e) => setValue(e.target.value)}
-                    value={value}
+                    {...register}
+                    name={name}
                     type={type}
-                    className="form-control form-control-lg"
-                    placeholder={placeholder}
+                    className={errors[name] ? 'error form-control form-control-lg' : 'form-control form-control-lg'}
+                    placeholder={placeHolder}
                 />
-
+                {errors[name] && <p>{errors[name].message}</p>}
             </div>
         </div>
     )
