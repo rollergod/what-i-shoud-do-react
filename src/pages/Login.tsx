@@ -8,6 +8,7 @@ import { getImage } from '../firebase/firebaseApi';
 import { InputElement } from '../components/InputElement';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { setCredentials } from '../store/slices/authSlice';
 
 type loginRequest = { email: string, password: string };
 
@@ -45,13 +46,17 @@ const Login = () => {
 
                     localStorage.setItem('jwt', resp.data.accessToken);
                     const imageUrl = await getImage(resp.data.imageName);
-                    localStorage.setItem('imageRef', imageUrl);
-                    localStorage.setItem('userName', resp.data.userName);
+
+                    dispatch(setCredentials({
+                        token: resp.data.accessToken,
+                        imageRef: imageUrl
+                    }));
 
                     navigate('/');
                 })
         } catch (error) {
             console.log(error);
+            alert('Не удалось авторизироваться')
         }
     };
 

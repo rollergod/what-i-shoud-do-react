@@ -20,6 +20,22 @@ namespace server.Services.Jwt
             _jwtOptions = jwtOptions.Value;
         }
 
+        public Dictionary<string, string> DecodeJwtToken(string token)
+        {
+            var resDictonary = new Dictionary<string, string>();
+
+            var handler = new JwtSecurityTokenHandler();
+            var readedToken = handler.ReadJwtToken(token);
+            var claims = readedToken.Claims.ToList();
+
+            foreach (var claim in claims)
+            {
+                resDictonary.Add(claim.Type, claim.Value);
+            }
+
+            return resDictonary;
+        }
+
         public string GenerateJwt(UserModel user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -37,6 +53,7 @@ namespace server.Services.Jwt
                     new Claim(JwtRegisteredClaimNames.Iat,DateTime.UtcNow.ToString()),
                     new Claim(JwtRegisteredClaimNames.Name,user.UserName),
                     new Claim(JwtRegisteredClaimNames.Email,user.Email),
+                    new Claim("UserId",user.Id)
                 }),
 
                 Expires = DateTime.UtcNow.AddMinutes(_jwtOptions.Expiry),

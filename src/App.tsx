@@ -11,8 +11,29 @@ import { PrivateRoute } from './hoc/PrivateRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import { useDispatch } from 'react-redux';
+import axiosInstance from './api/axiosInstance';
+import { API_URLS } from './api/api_constants';
+import { setCredentials } from './store/slices/authSlice';
+import { getImage } from './firebase/firebaseApi';
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    axiosInstance.get(API_URLS.GET_ME)
+      .then(async (res) => {
+        console.log(res);
+        const imageUrl = await getImage(res.data.user.imageName);
+        dispatch(setCredentials({
+          name: res.data.user.displayName,
+          email: res.data.user.email,
+          imageRef: imageUrl
+        }))
+      })
+      .catch(err => console.log(err));
+  }, []);
 
   return (
     <div className='App'>

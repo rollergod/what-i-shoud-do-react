@@ -5,5 +5,6 @@ export const enum API_URLS {
     REGISTER = `account/register`,
     LOGIN = `account/login`,
     PRIVATE_METHOD = 'private/getOkMessage',
-    REFRESH = 'account/refreshToken'
+    REFRESH = 'account/refreshToken',
+    GET_ME = 'private/getMe'
 };

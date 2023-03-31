@@ -6,5 +6,6 @@ namespace server.Services.Interfaces
     {
         string GenerateJwt(UserModel model);
         RefreshToken GenerateRefreshToken();
+        Dictionary<string, string> DecodeJwtToken(string token);
     }
 }
