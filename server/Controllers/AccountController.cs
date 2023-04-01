@@ -34,7 +34,7 @@ namespace server.Controllers
 
             return result.MatchFirst(
                registerResult => Ok(registerResult),
-               firstError => Problem(statusCode: StatusCodes.Status409Conflict, title: firstError.Description)
+               firstError => Problem(statusCode: int.Parse(firstError.Code), title: firstError.Description)
             );
         }
 
@@ -55,7 +55,7 @@ namespace server.Controllers
 
             return result.MatchFirst(
                 loginResult => Ok(loginResult),
-                firstError => Problem(statusCode: StatusCodes.Status409Conflict, title: firstError.Description)
+                firstError => Problem(statusCode: int.Parse(firstError.Code), title: firstError.Description)
             );
         }
 
@@ -76,7 +76,7 @@ namespace server.Controllers
 
             return result.MatchFirst(
                 refreshTokenResult => Ok(refreshTokenResult),
-                firstError => Problem(statusCode: StatusCodes.Status409Conflict, title: firstError.Description)
+                firstError => Problem(statusCode: int.Parse(firstError.Code), title: firstError.Description)
             );
         }
         private void setTokenCookie(string token)

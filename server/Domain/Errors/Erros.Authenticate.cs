@@ -6,7 +6,7 @@ namespace server.Domain.Errors
     {
         public static class Authenticate
         {
-            public static Error CreateUser = Error.Failure("Login.CreateUser", "Something went wrong while creating a new user instance.");
+            public static Error CreateUser = Error.Failure("500", "Something went wrong while creating a new user instance.");
         }
     }
 }

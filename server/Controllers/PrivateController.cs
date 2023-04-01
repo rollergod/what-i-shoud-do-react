@@ -31,13 +31,12 @@ namespace server.Controllers
         public async Task<IActionResult> GetMe()
         {
             var val = HttpContext.Request.Headers["UserId"].FirstOrDefault();
-            var val2 = HttpContext.Request.Headers["userId"].FirstOrDefault();
-            var query = new GetMeQuery(val);
+            var query = new GetMeQuery("");
             ErrorOr<GetMeResponse> result = await _sender.Send(query);
 
             return result.MatchFirst(
                userInfo => Ok(userInfo),
-               firstError => Problem(statusCode: StatusCodes.Status500InternalServerError, title: firstError.Description)
+               firstError => Problem(statusCode: int.Parse(firstError.Code), title: firstError.Description)
            );
         }
     }
