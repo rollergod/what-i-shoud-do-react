@@ -30,8 +30,8 @@ namespace server.Controllers
         [Authorize]
         public async Task<IActionResult> GetMe()
         {
-            var val = HttpContext.Request.Headers["UserId"].FirstOrDefault();
-            var query = new GetMeQuery("");
+            var userId = HttpContext.Response.Headers["UserId"].FirstOrDefault();
+            var query = new GetMeQuery(userId);
             ErrorOr<GetMeResponse> result = await _sender.Send(query);
 
             return result.MatchFirst(

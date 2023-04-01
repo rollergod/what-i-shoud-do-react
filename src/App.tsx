@@ -24,13 +24,14 @@ function App() {
   React.useEffect(() => {
     axiosInstance.get(API_URLS.GET_ME)
       .then(async (res) => {
-        console.log(res);
+
         const imageUrl = await getImage(res.data.user.imageName);
         dispatch(setCredentials({
           name: res.data.user.displayName,
           email: res.data.user.email,
           imageRef: imageUrl
         }))
+
       })
       .catch(err => console.log(err));
   }, []);

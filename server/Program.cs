@@ -56,7 +56,8 @@ builder.Services.AddCors(o => o.AddPolicy("Default", policy =>
     policy.WithOrigins("http://localhost:3000")
           .AllowAnyHeader()
           .AllowAnyMethod()
-          .AllowCredentials();
+          .AllowCredentials()
+          .WithExposedHeaders("UserId");
 }));
 
 var app = builder.Build();

@@ -21,7 +21,7 @@ const Home = () => {
     const testPrivateMethod = async (): Promise<void> => {
         try {
             const res = await axiosInstance.get(API_URLS.PRIVATE_METHOD);
-            console.log('PRIVATE METHOD', res);
+            console.log('PRIVATE METHOD', res.headers);
         } catch (error) {
             console.log(error);
         }

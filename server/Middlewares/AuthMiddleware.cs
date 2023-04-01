@@ -25,8 +25,7 @@ namespace server.Middlewares
 
                     if (claims.Count > 0)
                     {
-                        context.Items["userId"] = claims.FirstOrDefault(c => c.Key == "UserId").Value;
-                        context.Request.Headers.Add("UserId", claims.FirstOrDefault(c => c.Key == "UserId").Value);
+                        context.Response.Headers.Add("UserId", claims.FirstOrDefault(c => c.Key == "UserId").Value);
                     }
                 }
             }
