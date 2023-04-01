@@ -2,13 +2,13 @@
     text-align: center !important;
     font-weight: bold !important;
     margin-bottom: 30px !important;
-    padding-top: 25px !important;
+    padding-top: 25px;
 }
 
 .root {
     text-align: center;
 
     .enter {
-        width: 150px;
+        width: auto;
     }
 }

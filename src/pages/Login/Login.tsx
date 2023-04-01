@@ -11,6 +11,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { setCredentials } from '../../store/slices/authSlice';
 
 import styles from './Login.module.scss';
+import { Button, Container, Paper, Typography } from '@mui/material';
 
 type loginRequest = { email: string, password: string };
 
@@ -23,7 +24,7 @@ const Login = () => {
 
     const {
         register,
-        formState: { errors },
+        formState: { errors, isValid },
         handleSubmit
     } = useForm<IFormInputs>({
         mode: 'onChange'
@@ -31,6 +32,7 @@ const Login = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<IFormInputs> = async (values) => {
         console.log(values);
@@ -57,71 +59,72 @@ const Login = () => {
                     navigate('/');
                 })
         } catch (error) {
-            console.log(error);
+            if (error.response.data.status === 404)
+                setErrorMessage('User with current credentials was not found')
             alert('Не удалось авторизироваться')
         }
     };
 
     return (
-        <section className={styles.test} >
-            <div className="container h-100">
-                <div className="row d-flex justify-content-center align-items-center h-100">
-                    <div className="col-xl-9">
+        <Paper>
+            <Typography classes={{ root: styles.title }} variant="h5">
+                Вход в аккаунт
+            </Typography>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className={styles.root}>
 
-                        <h1 className="text-white mb-4">Apply for a job</h1>
+                    <InputElement
+                        name='email'
+                        header='Email Address'
+                        placeHolder='example@example.com'
+                        type='email'
+                        register={{
+                            ...register('email', {
+                                required: `Field email is required`,
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    message: "invalid email address"
+                                }
+                            })
+                        }}
+                        errors={errors}
+                    />
 
-                        <form className="card" onSubmit={handleSubmit(onSubmit)}>
-                            <div className="card-body">
+                    <hr className="mx-n3" />
 
-                                <InputElement
-                                    name='email'
-                                    header='Email Address'
-                                    placeHolder='example@example.com'
-                                    type='email'
-                                    register={{
-                                        ...register('email', {
-                                            required: `Field email is required`,
-                                            pattern: {
-                                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                                message: "invalid email address"
-                                            }
-                                        })
-                                    }}
-                                    errors={errors}
-                                />
+                    <InputElement
+                        name='password'
+                        header='Password'
+                        placeHolder='ivanovivan!123'
+                        type='password'
+                        register={{
+                            ...register('password', {
+                                required: `Field password is required`,
+                                minLength: {
+                                    value: 5,
+                                    message: `Minimum 5 symbols`,
+                                }
+                            })
+                        }}
+                        errors={errors}
+                    />
 
-                                <hr className="mx-n3" />
+                    <hr className="mx-n3" />
 
-                                <InputElement
-                                    name='password'
-                                    header='Password'
-                                    placeHolder='ivanovivan!123'
-                                    type='password'
-                                    register={{
-                                        ...register('password', {
-                                            required: `Field password is required`,
-                                            minLength: {
-                                                value: 5,
-                                                message: `Minimum 5 symbols`,
-                                            }
-                                        })
-                                    }}
-                                    errors={errors}
-                                />
+                    {
+                        errorMessage &&
+                        <Typography sx={{ color: 'red', fontSize: 20 }}>{errorMessage}</Typography>
+                    }
 
-                                <hr className="mx-n3" />
-
-                                <div className="px-5 py-4">
-                                    <input type='submit' value='Login' className="btn btn-primary btn-lg"></input>
-                                </div>
-
-                            </div>
-                        </form>
-
+                    <div className="px-5 py-4">
+                        <Button className={styles.enter} disabled={!isValid} type="submit" variant='outlined' fullWidth>
+                            Войти
+                        </Button>
                     </div>
+
                 </div>
-            </div>
-        </section>
+            </form>
+        </Paper>
     );
 };
 

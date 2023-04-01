@@ -9,12 +9,14 @@ import { PrivateRoute } from './hoc/PrivateRoute';
 
 import Home from './pages/Home';
 import Login from './pages/Login/Login';
-import Register from './pages/Register';
+import Register from './pages/Register/Register';
 import { useDispatch } from 'react-redux';
 import axiosInstance from './api/axiosInstance';
 import { API_URLS } from './api/api_constants';
 import { setCredentials } from './store/slices/authSlice';
 import { getImage } from './firebase/firebaseApi';
+import Header from './components/Header/Header';
+import { Container } from '@mui/material';
 
 function App() {
 
@@ -38,15 +40,18 @@ function App() {
   return (
     <div className='App'>
       <BrowserRouter>
-        <Routes>
-          <Route path='/login' element={<Login></Login>} />
-          <Route path='/register' element={<Register></Register>} />
-          <Route path='/' element={
-            <PrivateRoute>
-              <Home />
-            </PrivateRoute>
-          } />
-        </Routes>
+        <Header />
+        <Container maxWidth='lg'>
+          <Routes>
+            <Route path='/login' element={<Login></Login>} />
+            <Route path='/register' element={<Register></Register>} />
+            <Route path='/' element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            } />
+          </Routes>
+        </Container>
       </BrowserRouter>
     </div>
   );

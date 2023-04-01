@@ -1,3 +1,4 @@
+import { TextField, Typography } from '@mui/material';
 import React, { FC, forwardRef } from 'react';
 
 interface InputProps {
@@ -9,25 +10,31 @@ interface InputProps {
     errors: any
 }
 
+
 export const InputElement: FC<InputProps> = ({ header, name, placeHolder, type, errors, register }) => {
     console.log(errors);
     return (
         <div className="row align-items-center py-3">
             <div className="col-md-3 ps-5">
 
-                <h6 className="mb-0">{header}</h6>
+                <Typography variant="h6">
+                    {header}
+                </Typography>
 
             </div>
             <div className="col-md-9 pe-5">
 
-                <input
+                <TextField
                     {...register}
                     name={name}
                     type={type}
                     className={errors[name] ? 'error form-control form-control-lg' : 'form-control form-control-lg'}
-                    placeholder={placeHolder}
+                    label={placeHolder}
+                    error={Boolean(errors[name]?.message)}
+                    helperText={errors[name]?.message}
+                    fullWidth
                 />
-                {errors[name] && <p>{errors[name].message}</p>}
+
             </div>
         </div>
     )
