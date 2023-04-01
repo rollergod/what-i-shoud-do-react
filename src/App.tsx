@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 
 import {
   BrowserRouter,
@@ -9,7 +8,7 @@ import {
 import { PrivateRoute } from './hoc/PrivateRoute';
 
 import Home from './pages/Home';
-import Login from './pages/Login';
+import Login from './pages/Login/Login';
 import Register from './pages/Register';
 import { useDispatch } from 'react-redux';
 import axiosInstance from './api/axiosInstance';

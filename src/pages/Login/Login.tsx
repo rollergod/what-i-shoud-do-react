@@ -1,14 +1,16 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.css";
-import axiosInstance from '../api/axiosInstance';
-import { API_URLS } from '../api/api_constants';
+import axiosInstance from '../../api/axiosInstance';
+import { API_URLS } from '../../api/api_constants';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getImage } from '../firebase/firebaseApi';
-import { InputElement } from '../components/InputElement';
+import { getImage } from '../../firebase/firebaseApi';
+import { InputElement } from '../../components/InputElement';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { setCredentials } from '../store/slices/authSlice';
+import { setCredentials } from '../../store/slices/authSlice';
+
+import styles from './Login.module.scss';
 
 type loginRequest = { email: string, password: string };
 
@@ -61,7 +63,7 @@ const Login = () => {
     };
 
     return (
-        <section className="vh-100" >
+        <section className={styles.test} >
             <div className="container h-100">
                 <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col-xl-9">
