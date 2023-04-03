@@ -47,3 +47,4 @@ export default authSlice.reducer;
 export const selectCurrentUser = (state): { email: string, imageRef: string, name: string } => state.auth.user;
 export const selectCurrentImageRef = (state): string => state.auth.user.imageRef;
 export const selectCurrentToken = (state): string => state.auth.token;
+export const selectIsAuth = (state) => Boolean(state.auth.user);

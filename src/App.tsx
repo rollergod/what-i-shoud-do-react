@@ -17,6 +17,8 @@ import { setCredentials } from './store/slices/authSlice';
 import { getImage } from './firebase/firebaseApi';
 import Header from './components/Header/Header';
 import { Container } from '@mui/material';
+import { FullPost } from './pages/FullPost';
+import { AddPost } from './pages/AddPost/AddPost';
 
 function App() {
 
@@ -45,6 +47,8 @@ function App() {
           <Routes>
             <Route path='/login' element={<Login></Login>} />
             <Route path='/register' element={<Register></Register>} />
+            <Route path='/posts/:id' element={<FullPost></FullPost>} />
+            <Route path='/add-posts' element={<AddPost></AddPost>} />
             <Route path='/' element={
               <PrivateRoute>
                 <Home />

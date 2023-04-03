@@ -6,5 +6,6 @@ export const enum API_URLS {
     LOGIN = `account/login`,
     PRIVATE_METHOD = 'private/getOkMessage',
     REFRESH = 'account/refreshToken',
-    GET_ME = 'private/getMe'
+    GET_ME = 'private/getMe',
+    GET_POSTS = 'posts'
 };

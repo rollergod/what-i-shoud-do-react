@@ -9,11 +9,11 @@ namespace server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TagsController : ControllerBase
+    public class PostsController : ControllerBase
     {
         private readonly ISender _sender;
 
-        public TagsController(ISender sender)
+        public PostsController(ISender sender)
         {
             _sender = sender;
         }
@@ -30,7 +30,7 @@ namespace server.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetPosts(int id)
+        public async Task<IActionResult> GetPost(int id)
         {
             var query = await _sender.Send(new GetPostQuery(id));
 

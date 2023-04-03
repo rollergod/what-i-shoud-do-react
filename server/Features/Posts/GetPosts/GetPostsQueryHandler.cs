@@ -24,6 +24,7 @@ namespace server.Features.Posts.GetPosts
                                             new Post
                                             {
                                                 Id = post.Id,
+                                                UserModelId = post.UserModelId,
                                                 Image = post.Image,
                                                 Text = post.Text,
                                                 Title = post.Title,
