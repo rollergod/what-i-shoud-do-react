@@ -26,9 +26,10 @@ const Header = () => {
                     {
                         isAuth ? (
                             <>
-                                <Typography variant='caption' sx={{ color: 'black', mr: 2, fontSize: 16 }} >
-                                    Hello, {userModel.name}
-                                </Typography>
+                                {
+                                    userModel &&
+                                    <Typography variant='caption' sx={{ color: 'black', mr: 2, fontSize: 16 }}>Hello, {userModel.name}</Typography>
+                                }
                                 <Link to="/add-posts">
                                     <Button variant="contained">Создать пост</Button>
                                 </Link>

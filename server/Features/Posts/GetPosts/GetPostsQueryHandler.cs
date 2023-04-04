@@ -20,16 +20,7 @@ namespace server.Features.Posts.GetPosts
         public async Task<ErrorOr<GetPostsResponse>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
             var posts = await _context.Posts
-                                       .Select(post =>
-                                            new Post
-                                            {
-                                                Id = post.Id,
-                                                UserModelId = post.UserModelId,
-                                                Image = post.Image,
-                                                Text = post.Text,
-                                                Title = post.Title,
-                                                ViewCount = post.ViewCount
-                                            })
+                                       .Include(p => p.UserModel)
                                        .ToListAsync();
 
             if (posts.Count == 0)

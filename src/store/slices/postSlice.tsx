@@ -26,7 +26,6 @@ const postsSlice = createSlice({
     initialState,
     reducers: {
         setPosts: (state, action: PayloadAction<{ data: Post[] }>) => {
-            console.log('payload', action.payload);
             state.posts.items = action.payload.data
         }
     }

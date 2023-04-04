@@ -44,6 +44,7 @@ export const FullPost = () => {
             isFullPost={false}
             text={'test'}
             children={null}
+            userModel
         />
     }
 
@@ -58,6 +59,7 @@ export const FullPost = () => {
                 isFullPost={true}
                 isLoading={false}
                 isEditable={false}
+                userModel
             >
                 <ReactMarkdown children={postInfo.text} />
             </Post>

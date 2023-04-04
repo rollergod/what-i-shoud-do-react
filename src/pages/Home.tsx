@@ -20,9 +20,8 @@ const Home = () => {
         const getPosts = async () => {
             const res = await axiosInstance.get(API_URLS.GET_POSTS)
                 .then(res => {
-                    console.log(res.data);
+                    console.log(res);
                     dispatch(setPosts(res.data))
-                    console.log('POT', posts);
                     SetIsPostsLoading(false);
                 });
         }
@@ -36,7 +35,6 @@ const Home = () => {
         try {
             const res = await axiosInstance.get(API_URLS.PRIVATE_METHOD);
             console.log('PRIVATE METHOD', res.headers);
-            console.log('POT', posts.items);
         } catch (error) {
             console.log(error);
         }
@@ -58,6 +56,7 @@ const Home = () => {
                         isFullPost={false}
                         text={'test'}
                         children={null}
+                        userModel={null}
                     />
                 ) : (
 
@@ -71,36 +70,12 @@ const Home = () => {
                         isLoading={false}
                         text={obj.text}
                         key={obj.id}
+                        userModel={obj.userModel}
                         children={null}
                     />
                 ))
 
                 }
-                {/* {(isPostsLoading ? [...Array(5)] : posts).map((obj, index) => isPostsLoading ? (
-                    <Post
-                        key={index}
-                        isLoading={true}
-                        id={1}
-                        title={'asd'}
-                        image={''}
-                        viewsCount={1}
-                        isEditable={true}
-                        isFullPost={false}
-                        text={'test'} />
-                ) : (
-                    <Post
-                        id={obj.id}
-                        title={obj.title}
-                        image={obj.image}
-                        viewsCount={obj.viewCount}
-                        isEditable={true}
-                        isFullPost={false}
-                        isLoading={false}
-                        text={obj.text}
-                        key={index}
-                    />
-
-                ))} */}
             </Grid>
             <div style={{ height: 500 }} className='d-flex flex-column justify-content-center align-items-center'>
                 <span onClick={testPrivateMethod} className='pt-5 fs-5 exit-link'>Test method</span>

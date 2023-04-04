@@ -9,6 +9,7 @@ import styles from './Post.module.scss';
 import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
+import { UserInfo } from '../UserInfo/UserInfo';
 
 export const Post = ({
     id,
@@ -19,6 +20,7 @@ export const Post = ({
     isFullPost,
     isLoading,
     isEditable,
+    userModel,
     children
 }) => {
     const dispatch = useDispatch();
@@ -31,7 +33,7 @@ export const Post = ({
         <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
             {isEditable && (
                 <div className={styles.editButtons}>
-                    <Link to=''>
+                    <Link to={`/posts/${id}/edit`}>
                         <IconButton color='primary'>
                             <EditIcon />
                         </IconButton>
@@ -45,6 +47,7 @@ export const Post = ({
                 <img className={clsx(styles.image, { [styles.imageFull]: isFullPost })} alt={title} src={image} />
             )}
             <div className={styles.wrapper}>
+                <UserInfo {...userModel} />
                 <div className={styles.idention}>
                     <h2 className={clsx(styles.title, { [styles.titleFull]: isFullPost })}>
                         {isFullPost ? title : <Link to={`/posts/${id}`}>{title}</Link>}

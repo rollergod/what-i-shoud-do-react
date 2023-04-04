@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace server.Domain.Models
 {
     public class Post
@@ -8,5 +10,7 @@ namespace server.Domain.Models
         public string Text { get; set; }
         public string Image { get; set; }
         public int ViewCount { get; set; } = 0;
+
+        public UserModel UserModel { get; set; }
     }
 }

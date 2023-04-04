@@ -1,17 +1,24 @@
 import React from 'react';
 import SimpleMDE from 'react-simplemde-editor';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import styles from './AddPost.module.scss';
 import { useAppSelector } from '../../hoc/hook';
 import { selectIsAuth } from '../../store/slices/authSlice';
 import { Button, Paper, TextField } from '@mui/material';
+import axiosInstance from '../../api/axiosInstance';
+import { uploadFile } from '../../firebase/firebaseApi';
+import { deleteFile } from '../../firebase/firebaseApi';
+import { getImage } from '../../firebase/firebaseApi';
+import { resolve } from 'path';
 
 export const AddPost = () => {
     const { id } = useParams(); // post id
+    const navigate = useNavigate();
     const isAuth = useAppSelector(selectIsAuth)
 
     const [imageUrl, setImageUrl] = React.useState<string>('');
+    const [selectedImage, setSelectedImage] = React.useState<File>(null);
     const [text, setText] = React.useState<string>('');
     const [title, setTitle] = React.useState<string>('');
 
@@ -19,16 +26,55 @@ export const AddPost = () => {
 
     const isEditing = Boolean(id);
 
-    const handleChangeFile = () => {
+    React.useEffect(() => {
+        if (id) {
+            axiosInstance.get(`/posts/${id}`)
+                .then(({ data }) => {
+                    setText(data.data.text);
+                    setTitle(data.data.title);
+                    setImageUrl(data.data.image);
+                })
+        }
+    }, [])
 
+    const handleChangeFile = async (event) => {
+        if (event.target.files && event.target.files[0]) {
+            const item = event.target.files[0];
+            setSelectedImage(item);
+            setImageUrl(URL.createObjectURL(item));
+        }
     }
 
     const onClickRemoveImage = () => {
-
+        setImageUrl('');
+        setSelectedImage(null);
+        inputFileRef.current.value = '';
     }
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
+        try {
+            await uploadFile(selectedImage);
+            const url = await getImage(selectedImage.name)
+            setImageUrl(url);
 
+            const fields = {
+                text,
+                title,
+                image: url,
+            };
+
+            const { data } = isEditing
+                ? await axiosInstance.put(`/posts/${id}`, fields)
+                : await axiosInstance.post('/posts', fields);
+
+            const _id = isEditing ? id : data.data.id;
+
+            navigate(`/posts/${_id}`)
+
+        } catch (error) {
+            console.warn(error);
+            alert('Ошибка создания статьи')
+        }
     }
 
     const onChange = React.useCallback((value) => {
@@ -45,19 +91,12 @@ export const AddPost = () => {
         }
     }, []);
 
-    const autofocusNoSpellcheckerOptions = React.useMemo(() => {
-        return {
-            autofocus: true,
-            spellChecker: false,
-        }
-    }, []);
-
     return (
         <Paper style={{ padding: 30 }}>
             <Button onClick={() => inputFileRef.current.click()} variant='outlined' size='large'>
                 Загрузить изображение
             </Button>
-            <input ref={inputFileRef} type='file' onChange={handleChangeFile} hidden />
+            <input ref={inputFileRef} type='file' onChange={handleChangeFile} />
             {imageUrl && (
                 <>
                     <Button variant='contained' color='error' onClick={onClickRemoveImage}>

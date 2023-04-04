@@ -47,6 +47,7 @@ const Register = () => {
             const item = event.target.files[0];
             setSelectedImage(item);
             setImageUrl(URL.createObjectURL(item));
+            console.log(imageUrl);
         }
     };
 

@@ -30,7 +30,6 @@ namespace server.Middlewares
                 }
             }
 
-
             await _next(context);
         }
     }

@@ -26,6 +26,9 @@ namespace server.Features.Posts.GetPost
             if (post == null)
                 return Errors.Post.PostNotFound;
 
+            post.ViewCount++;
+            await _context.SaveChangesAsync();
+
             return new GetPostResponse
             {
                 Data = post,

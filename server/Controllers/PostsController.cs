@@ -43,6 +43,7 @@ namespace server.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePost(PostRequest postModel)
         {
+            postModel.UserId = HttpContext.Response.Headers["UserId"].FirstOrDefault();
             var command = new PostCommand(postModel);
 
             var res = await _sender.Send(command);
