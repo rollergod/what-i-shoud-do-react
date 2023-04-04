@@ -7,6 +7,7 @@ import { Grid } from '@mui/material';
 import { getAllPosts, setPosts } from '../store/slices/postSlice';
 import { Post } from '../components/Post/Post';
 import { useAppDispatch, useAppSelector } from '../hoc/hook';
+import { selectCurrentUser } from '../store/slices/authSlice';
 
 
 
@@ -14,6 +15,7 @@ const Home = () => {
     const [isPostsLoading, SetIsPostsLoading] = React.useState(true);
     const dispatch = useAppDispatch();
     const posts = useAppSelector(state => state.post.posts);
+    const userModel = useAppSelector(selectCurrentUser);
 
     React.useEffect(() => {
 
@@ -65,7 +67,7 @@ const Home = () => {
                         title={obj.title}
                         image={obj.image}
                         viewsCount={obj.viewCount}
-                        isEditable={true}
+                        isEditable={userModel.name == obj.userModel.displayName}
                         isFullPost={false}
                         isLoading={false}
                         text={obj.text}
@@ -73,9 +75,7 @@ const Home = () => {
                         userModel={obj.userModel}
                         children={null}
                     />
-                ))
-
-                }
+                ))}
             </Grid>
             <div style={{ height: 500 }} className='d-flex flex-column justify-content-center align-items-center'>
                 <span onClick={testPrivateMethod} className='pt-5 fs-5 exit-link'>Test method</span>
