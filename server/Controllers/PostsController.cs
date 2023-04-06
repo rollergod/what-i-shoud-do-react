@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using server.Domain.Contracts.Requests;
 using server.Features.Posts.CreatePost;
+using server.Features.Posts.GetLastFivePosts;
 using server.Features.Posts.GetPost;
 using server.Features.Posts.GetPosts;
 
@@ -22,6 +23,17 @@ namespace server.Controllers
         public async Task<IActionResult> GetPosts()
         {
             var query = await _sender.Send(new GetPostsQuery());
+
+            return query.MatchFirst(
+                posts => Ok(posts),
+                firstError => Problem(statusCode: int.Parse(firstError.Code), title: firstError.Description)
+            );
+        }
+
+        [HttpGet("last-five-posts")]
+        public async Task<IActionResult> GetLastFivePosts()
+        {
+            var query = await _sender.Send(new GetLastFivePostsQuery());
 
             return query.MatchFirst(
                 posts => Ok(posts),

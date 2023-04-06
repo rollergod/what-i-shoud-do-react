@@ -8,6 +8,7 @@ import { getAllPosts, setPosts } from '../store/slices/postSlice';
 import { Post } from '../components/Post/Post';
 import { useAppDispatch, useAppSelector } from '../hoc/hook';
 import { selectCurrentUser } from '../store/slices/authSlice';
+import { LastPostsBlock } from '../components/ComponentsBlock/LastPostsBlock';
 
 
 
@@ -45,41 +46,47 @@ const Home = () => {
 
     return (
         <>
-            <Grid>
-                {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) => isPostsLoading ? (
-                    <Post
-                        key={index}
-                        isLoading={true}
-                        id={1}
-                        title={'asd'}
-                        image={''}
-                        viewsCount={1}
-                        isEditable={true}
-                        isFullPost={false}
-                        text={'test'}
-                        children={null}
-                        userModel={null}
+            <Grid container spacing={4}>
+                <Grid xs={8} item>
+                    {(isPostsLoading ? [...Array(10)] : posts.items).map((obj, index) => isPostsLoading ? (
+                        <Post
+                            key={index}
+                            isLoading={true}
+                            id={1}
+                            title={'asd'}
+                            image={''}
+                            viewsCount={1}
+                            isEditable={true}
+                            isFullPost={false}
+                            text={'test'}
+                            children={null}
+                            userModel={null}
+                        />
+                    ) : (
+                        <Post
+                            id={obj.id}
+                            title={obj.title}
+                            image={obj.image}
+                            viewsCount={obj.viewCount}
+                            isEditable={userModel.name == obj.userModel.displayName}
+                            isFullPost={false}
+                            isLoading={false}
+                            text={obj.text}
+                            key={obj.id}
+                            userModel={obj.userModel}
+                            children={null}
+                        />
+                    ))}
+                </Grid>
+                <Grid xs={4} item>
+                    <LastPostsBlock
+                        items={posts.items.slice(-5)}
                     />
-                ) : (
-
-                    <Post
-                        id={obj.id}
-                        title={obj.title}
-                        image={obj.image}
-                        viewsCount={obj.viewCount}
-                        isEditable={userModel.name == obj.userModel.displayName}
-                        isFullPost={false}
-                        isLoading={false}
-                        text={obj.text}
-                        key={obj.id}
-                        userModel={obj.userModel}
-                        children={null}
-                    />
-                ))}
+                </Grid>
+                <div style={{ height: 500 }} className='d-flex flex-column justify-content-center align-items-center'>
+                    <span onClick={testPrivateMethod} className='pt-5 fs-5 exit-link'>Test method</span>
+                </div>
             </Grid>
-            <div style={{ height: 500 }} className='d-flex flex-column justify-content-center align-items-center'>
-                <span onClick={testPrivateMethod} className='pt-5 fs-5 exit-link'>Test method</span>
-            </div>
         </>
 
     );
