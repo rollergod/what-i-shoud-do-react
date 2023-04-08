@@ -27,11 +27,15 @@ const postsSlice = createSlice({
     reducers: {
         setPosts: (state, action: PayloadAction<{ data: Post[] }>) => {
             state.posts.items = action.payload.data
+        },
+        removePost: (state, action: PayloadAction<{ id: number }>) => {
+            console.log(action.payload.id);
+            state.posts.items = state.posts.items.filter(obj => obj.id !== action.payload.id);
         }
     }
 })
 
-export const { setPosts } = postsSlice.actions;
+export const { setPosts, removePost } = postsSlice.actions;
 
 export default postsSlice.reducer;
 

@@ -2,9 +2,11 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using server.Domain.Contracts.Requests;
 using server.Features.Posts.CreatePost;
+using server.Features.Posts.DeletePost;
 using server.Features.Posts.GetLastFivePosts;
 using server.Features.Posts.GetPost;
 using server.Features.Posts.GetPosts;
+using server.Features.Posts.UpdatePost;
 
 namespace server.Controllers
 {
@@ -62,6 +64,32 @@ namespace server.Controllers
 
             return res.MatchFirst(
                 createPost => Ok(createPost),
+                firstError => Problem(statusCode: int.Parse(firstError.Code), title: firstError.Description)
+             );
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> GetPost(int id, PostRequest requestModel)
+        {
+            var command = new UpdatePostCommand(id, requestModel);
+
+            var updateResult = await _sender.Send(command);
+
+            return updateResult.MatchFirst(
+                updatedPost => Ok(updatedPost),
+                firstError => Problem(statusCode: int.Parse(firstError.Code), title: firstError.Description)
+             );
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            var command = new DeletePostCommand(id);
+
+            var deleteResult = await _sender.Send(command);
+
+            return deleteResult.MatchFirst(
+                _ => Ok(_),
                 firstError => Problem(statusCode: int.Parse(firstError.Code), title: firstError.Description)
              );
         }

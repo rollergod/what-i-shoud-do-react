@@ -35,7 +35,6 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<IFormInputs> = async (values) => {
-        console.log(values);
 
         const loginRequest: loginRequest = {
             email: values.email,
@@ -47,12 +46,12 @@ const Login = () => {
                 withCredentials: true,
             })
                 .then(async resp => {
-
                     localStorage.setItem('jwt', resp.data.accessToken);
                     const imageUrl = await getImage(resp.data.imageName);
 
                     dispatch(setCredentials({
                         token: resp.data.accessToken,
+                        name: resp.data.userName,
                         imageRef: imageUrl
                     }));
 

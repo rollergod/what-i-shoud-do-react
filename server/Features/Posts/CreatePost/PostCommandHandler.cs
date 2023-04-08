@@ -24,7 +24,7 @@ namespace server.Features.Posts.CreatePost
             var post = new Post
             {
                 Text = request.model.Text,
-                Title = request.model.Text,
+                Title = request.model.Title,
                 Image = request.model.Image,
                 UserModelId = request.model.UserId
             };

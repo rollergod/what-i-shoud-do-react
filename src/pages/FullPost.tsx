@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';
 import { Post } from '../components/Post/Post';
 
-
 import ReactMarkdown from 'react-markdown';
 
 type Post = {
@@ -12,7 +11,11 @@ type Post = {
     title: string,
     text: string,
     image: string,
-    viewCount: number
+    viewCount: number,
+    userModel: {
+        imageName: string,
+        userName: string
+    }
 };
 
 export const FullPost = () => {
@@ -24,6 +27,7 @@ export const FullPost = () => {
     React.useEffect(() => {
         axiosInstance.get(`/posts/${id}`)
             .then(res => {
+                console.log('GET SINGLE POST', res.data);
                 setPostInfo(res.data.data);
                 setIsLoading(false);
             })
@@ -59,7 +63,7 @@ export const FullPost = () => {
                 isFullPost={true}
                 isLoading={false}
                 isEditable={false}
-                userModel
+                userModel={postInfo.userModel}
             >
                 <ReactMarkdown children={postInfo.text} />
             </Post>

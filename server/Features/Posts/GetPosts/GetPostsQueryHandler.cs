@@ -21,6 +21,7 @@ namespace server.Features.Posts.GetPosts
         {
             var posts = await _context.Posts
                                        .Include(p => p.UserModel)
+                                       .OrderBy(p => p.Id)
                                        .ToListAsync();
 
             if (posts.Count == 0)

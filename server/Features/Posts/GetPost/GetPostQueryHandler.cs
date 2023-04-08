@@ -21,7 +21,9 @@ namespace server.Features.Posts.GetPost
             if (request.Id < 0)
                 return Errors.Server.BadRequest;
 
-            var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == request.Id);
+            var post = await _context.Posts
+                                    .Include(p => p.UserModel)
+                                    .FirstOrDefaultAsync(p => p.Id == request.Id);
 
             if (post == null)
                 return Errors.Post.PostNotFound;

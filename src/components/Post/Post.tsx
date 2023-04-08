@@ -10,6 +10,11 @@ import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 import { UserInfo } from '../UserInfo/UserInfo';
+import { getImage } from '../../firebase/firebaseApi';
+import { useAppDispatch } from '../../hoc/hook';
+import { removePost } from '../../store/slices/postSlice';
+import axiosInstance from '../../api/axiosInstance';
+import { API_URLS } from '../../api/api_constants';
 
 export const Post = ({
     id,
@@ -23,7 +28,31 @@ export const Post = ({
     userModel,
     children
 }) => {
-    const dispatch = useDispatch();
+    // TODO: попробовать сделать скелетон при загрузке всех постов(ибо плохо прогружается аватарка профиля и картинка поста)
+    const dispatch = useAppDispatch();
+    const [url, setUrl] = React.useState('');
+
+    const getUrlImage = async () => {
+        getImage(image)
+            .then(res => {
+                console.log(res);
+                setUrl(res);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    React.useEffect(() => {
+        getUrlImage();
+    }, [isLoading]);
+
+    const removePostHandler = async () => {
+        if (window.confirm('Вы действительно хотите удалить статью?')) {
+            dispatch(removePost({ id }));
+            await axiosInstance.delete(`${API_URLS.GET_POSTS}/${id}`);
+        }
+    }
 
     if (isLoading) {
         return <PostSkeleton />
@@ -38,13 +67,13 @@ export const Post = ({
                             <EditIcon />
                         </IconButton>
                     </Link>
-                    <IconButton onClick={() => { }} color="secondary">
+                    <IconButton onClick={removePostHandler} color="secondary">
                         <DeleteIcon />
                     </IconButton>
                 </div>
             )}
             {image && (
-                <img className={clsx(styles.image, { [styles.imageFull]: isFullPost })} alt={title} src={image} />
+                <img className={clsx(styles.image, { [styles.imageFull]: isFullPost })} alt={title} src={url} />
             )}
             <div className={styles.wrapper}>
                 <UserInfo {...userModel} />

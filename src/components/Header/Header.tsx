@@ -2,14 +2,14 @@ import { AppBar, Button, Toolbar, Typography } from '@mui/material';
 import styles from './Header.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { useDispatch, useSelector } from 'react-redux';
 import { deleteCredentials, selectCurrentUser, selectIsAuth } from '../../store/slices/authSlice';
+import { useAppDispatch, useAppSelector } from '../../hoc/hook';
 
 const Header = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const isAuth: boolean = useSelector(selectIsAuth); // TODO : поменять useAppSelector / useAppDispatch
-    const userModel = useSelector(selectCurrentUser);
+    const dispatch = useAppDispatch();
+    const isAuth: boolean = useAppSelector(selectIsAuth);
+    const userModel = useAppSelector(selectCurrentUser);
 
     const handleLogOut = (): void => {
         navigate('/login', { replace: true });

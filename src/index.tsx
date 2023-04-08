@@ -4,6 +4,8 @@ import store from './store/store';
 import App from './App';
 import { Provider } from 'react-redux';
 import './index.scss';
+import { ThemeProvider } from '@emotion/react';
+import { theme } from './theme';
 
 
 const root = ReactDOM.createRoot(
@@ -11,7 +13,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
-    <App />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </Provider>
 );
 
