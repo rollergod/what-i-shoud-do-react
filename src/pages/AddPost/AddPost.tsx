@@ -21,10 +21,22 @@ export const AddPost = () => {
     const [selectedImage, setSelectedImage] = React.useState<File>(null);
     const [text, setText] = React.useState<string>('');
     const [title, setTitle] = React.useState<string>('');
+    const [imageName, setImageName] = React.useState<string>('');
 
     const inputFileRef = React.useRef(null);
 
     const isEditing = Boolean(id);
+
+    const getUrlImage = async (image: string) => {
+        getImage(image)
+            .then(res => {
+                console.log(res);
+                setImageUrl(res);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
 
     React.useEffect(() => {
         if (id) {
@@ -32,7 +44,8 @@ export const AddPost = () => {
                 .then(({ data }) => {
                     setText(data.data.text);
                     setTitle(data.data.title);
-                    setImageUrl(data.data.image);
+                    setImageName(data.data.iamge);
+                    getUrlImage(data.data.image);
                 })
         }
     }, [])
@@ -53,18 +66,22 @@ export const AddPost = () => {
 
     const onSubmit = async () => {
         try {
-            await uploadFile(selectedImage);
-            const url = await getImage(selectedImage.name)
-            setImageUrl(url);
+            console.log(selectedImage);
+            if (selectedImage !== null) {
+                await uploadFile(selectedImage);
+                await getImage(selectedImage.name)
+            }
 
             const fields = {
                 text,
                 title,
-                image: url,
+                image: selectedImage !== null ? selectedImage.name : imageName,
             };
 
+            console.log('FIELDS', fields);
+
             const { data } = isEditing
-                ? await axiosInstance.put(`/posts/${id}`, fields)
+                ? await axiosInstance.put(`/posts/${id}`, fields) // TODO: передалть URL
                 : await axiosInstance.post('/posts', fields);
 
             const _id = isEditing ? id : data.data.id;
@@ -96,7 +113,7 @@ export const AddPost = () => {
             <Button onClick={() => inputFileRef.current.click()} variant='outlined' size='large'>
                 Загрузить изображение
             </Button>
-            <input ref={inputFileRef} type='file' onChange={handleChangeFile} />
+            <input ref={inputFileRef} type='file' onChange={handleChangeFile} hidden />
             {imageUrl && (
                 <>
                     <Button variant='contained' color='error' onClick={onClickRemoveImage}>
