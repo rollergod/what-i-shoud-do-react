@@ -22,9 +22,9 @@ namespace server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPosts()
+        public async Task<IActionResult> GetPosts(string? searchQuery)
         {
-            var query = await _sender.Send(new GetPostsQuery());
+            var query = await _sender.Send(new GetPostsQuery(searchQuery));
 
             return query.MatchFirst(
                 posts => Ok(posts),

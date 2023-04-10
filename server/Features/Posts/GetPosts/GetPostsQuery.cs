@@ -4,5 +4,5 @@ using server.Domain.Contracts.Responses.PostResponses;
 
 namespace server.Features.Posts.GetPosts
 {
-    public record GetPostsQuery : ICommand<ErrorOr<GetPostsResponse>>;
+    public record GetPostsQuery(string? searchQuery) : ICommand<ErrorOr<GetPostsResponse>>;
 }

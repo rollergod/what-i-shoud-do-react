@@ -5,6 +5,7 @@ using server.Domain.Models;
 using server.Persistance;
 using server.Domain.Errors;
 using server.Domain.Contracts.Responses.PostResponses;
+using server.Extensions;
 
 namespace server.Features.Posts.GetPosts
 {
@@ -21,6 +22,7 @@ namespace server.Features.Posts.GetPosts
         {
             var posts = await _context.Posts
                                        .Include(p => p.UserModel)
+                                       .Search(request.searchQuery)
                                        .OrderBy(p => p.Id)
                                        .ToListAsync();
 

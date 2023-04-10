@@ -14,6 +14,7 @@ import { LastPostsBlock } from '../components/ComponentsBlock/LastPostsBlock';
 const Home = () => {
     const [isPostsLoading, SetIsPostsLoading] = React.useState(true);
     const [errorMessage, setErrorMessage] = React.useState<string>('');
+    const [query, setQuery] = React.useState<string>('');
     const dispatch = useAppDispatch();
     const posts = useAppSelector(state => state.post.posts);
     const userModel = useAppSelector(selectCurrentUser);
@@ -27,6 +28,15 @@ const Home = () => {
         SetIsPostsLoading(false);
     }
 
+    // TODO: спросить у жени как можно сделать лучше
+    React.useEffect(() => {
+
+        if (posts.items.length === 0)
+            setErrorMessage('В нашем блоге отсутствуют посты:( Попробуй создать первый пост!')
+        else
+            setErrorMessage('')
+
+    }, [posts.items.length]);
 
     React.useEffect(() => {
 
@@ -39,6 +49,7 @@ const Home = () => {
             });
 
     }, []);
+
 
     const testPrivateMethod = async (): Promise<void> => {
         try {
@@ -65,6 +76,7 @@ const Home = () => {
                         </Typography>
                         :
                         <>
+                            <input placeholder='Search' onChange={(e) => setQuery(e.target.value)} />
                             <Grid xs={8} item>
                                 {(isPostsLoading ? [...Array(10)] : posts.items).map((obj, index) => isPostsLoading ? (
                                     <Post
