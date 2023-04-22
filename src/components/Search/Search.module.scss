@@ -1,0 +1,21 @@
+.root {
+    margin-bottom: 30px;
+    height: 50px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+
+    input {
+        width: 50%;
+        border: none;
+        height: 40px;
+        flex: 1;
+        padding-left: 10px;
+    }
+
+    input:focus {
+        outline: none;
+    }
+}

@@ -33,6 +33,7 @@ export const Post = ({
     const [url, setUrl] = React.useState('');
 
     const getUrlImage = async () => {
+        console.log(image);
         getImage(image)
             .then(res => {
                 console.log(res);
