@@ -14,7 +14,8 @@ type Post = {
     title: string,
     text: string,
     image: string,
-    viewCount: number
+    viewCount: number,
+    createdDate: Date
 };
 
 type PostsState = {
@@ -33,7 +34,6 @@ const initialState: PostsState = {
 
 export const fetchPostsAsync = createAsyncThunk<Data, { searchQuery: string }>(`${API_URLS.GET_POSTS}`, async ({ searchQuery }) => {
     const { data } = await axiosInstance.get(`${API_URLS.GET_POSTS}?searchQuery=${searchQuery}`);
-    console.log('GET DATA POSTS');
     return data;
 });
 
@@ -56,7 +56,6 @@ const postsSlice = createSlice({
                 state.posts.status = 'loading';
             })
             .addCase(fetchPostsAsync.fulfilled, (state, action) => {
-                console.log('FETCH POSTS DATA', action.payload);
                 state.posts.items = action.payload.data;
                 state.posts.status = 'loaded';
             })

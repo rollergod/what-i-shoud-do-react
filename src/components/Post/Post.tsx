@@ -26,6 +26,7 @@ export const Post = ({
     isLoading,
     isEditable,
     userModel,
+    createdDate,
     children
 }) => {
     // TODO: попробовать сделать скелетон при загрузке всех постов(ибо плохо прогружается аватарка профиля и картинка поста)
@@ -87,6 +88,9 @@ export const Post = ({
                         <li>
                             <EyeIcon />
                             <span>{viewsCount}</span>
+                        </li>
+                        <li>
+                            <span>{createdDate}</span>
                         </li>
                     </ul>
                 </div>

@@ -12,6 +12,7 @@ type Post = {
     text: string,
     image: string,
     viewCount: number,
+    createdDate: Date,
     userModel: {
         imageName: string,
         userName: string
@@ -48,6 +49,7 @@ export const FullPost = () => {
             isFullPost={false}
             text={'test'}
             children={null}
+            createdDate={null}
             userModel
         />
     }
@@ -64,6 +66,7 @@ export const FullPost = () => {
                 isLoading={false}
                 isEditable={false}
                 userModel={postInfo.userModel}
+                createdDate={postInfo.createdDate}
             >
                 <ReactMarkdown children={postInfo.text} />
             </Post>

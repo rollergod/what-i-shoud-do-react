@@ -13,7 +13,6 @@ import Search from '../components/Search/Search';
 
 import useDebounceHook from '../hoc/useDebounceHook';
 
-
 const Home = () => {
     const [isPostsLoading, setIsPostsLoading] = React.useState(true);
     const [errorMessage, setErrorMessage] = React.useState<string>('');
@@ -25,7 +24,6 @@ const Home = () => {
 
     const debouncedSearchValue = useDebounceHook(searchQuery, 1000);
 
-    // TODO: спросить у жени как можно сделать лучше
     React.useEffect(() => {
         console.log(status);
         if (status === 'error' || status === 'loaded' && posts.items.length === 0)
@@ -44,7 +42,6 @@ const Home = () => {
             });
 
     }, [debouncedSearchValue]);
-
 
     const testPrivateMethod = async (): Promise<void> => {
         try {
@@ -87,6 +84,7 @@ const Home = () => {
                                             text={'test'}
                                             children={null}
                                             userModel={null}
+                                            createdDate={null}
                                         />
                                     ) : (
                                         <Post
@@ -101,6 +99,7 @@ const Home = () => {
                                             key={obj.id}
                                             userModel={obj.userModel}
                                             children={null}
+                                            createdDate={obj.createdDate}
                                         />
                                     ))}
                                 </Grid>

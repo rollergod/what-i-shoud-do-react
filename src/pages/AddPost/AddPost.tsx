@@ -2,6 +2,7 @@ import React from 'react';
 import SimpleMDE from 'react-simplemde-editor';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
 import { useAppSelector } from '../../hoc/hook';
 import { selectIsAuth } from '../../store/slices/authSlice';
@@ -10,7 +11,6 @@ import axiosInstance from '../../api/axiosInstance';
 import { uploadFile } from '../../firebase/firebaseApi';
 import { deleteFile } from '../../firebase/firebaseApi';
 import { getImage } from '../../firebase/firebaseApi';
-import { resolve } from 'path';
 
 export const AddPost = () => {
     const { id } = useParams(); // post id
