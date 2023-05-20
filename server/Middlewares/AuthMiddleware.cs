@@ -17,9 +17,8 @@ namespace server.Middlewares
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-            if (token != null)
+            if (token != null && token != "null")
             {
-                if (token != "null")
                 {
                     var claims = _jwtProvider.DecodeJwtToken(token);
 
@@ -28,9 +27,9 @@ namespace server.Middlewares
                         context.Response.Headers.Add("UserId", claims.FirstOrDefault(c => c.Key == "UserId").Value);
                     }
                 }
-            }
 
-            await _next(context);
+                await _next(context);
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
 import { IconButton } from '@mui/material';
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PostSkeleton } from './Skeleton';
 import clsx from 'clsx';

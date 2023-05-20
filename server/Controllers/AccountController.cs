@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using server.Domain.Contracts.Requests;
 using server.Domain.Contracts.Responses;
+using server.Features.Accounts.ChangeProfile;
 using server.Features.Accounts.Login;
 using server.Features.Accounts.Register;
 using server.Features.Tokens;
@@ -79,6 +80,25 @@ namespace server.Controllers
                 firstError => Problem(statusCode: int.Parse(firstError.Code), title: firstError.Description)
             );
         }
+
+        [HttpPost("changeProfile")]
+        public async Task<IActionResult> ChangeProfile(
+            ChangeProfileRequest request,
+            CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var command = new ChangeProfileCommand(userId: HttpContext.Response.Headers["UserId"].FirstOrDefault(), request);
+
+            var changeResult = await _sender.Send(command);
+
+            return changeResult.MatchFirst(
+                _ => Ok(_),
+                firstError => Problem(statusCode: int.Parse(firstError.Code), title: firstError.Description)
+            );
+        }
+
         private void setTokenCookie(string token)
         {
             // append cookie with refresh token to the http response

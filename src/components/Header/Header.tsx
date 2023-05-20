@@ -20,7 +20,7 @@ const Header = () => {
         <AppBar className={styles.root} position='static'>
             <Toolbar sx={{ backgroundColor: 'white' }}>
                 <Typography variant='h5' sx={{ flexGrow: 2, color: 'black', mr: 2 }} >
-                    Rollergod
+                    <Link className={styles.title} to="/">Rollergod`s blog</Link>
                 </Typography>
                 <div className={styles.buttons}>
                     {
@@ -28,7 +28,9 @@ const Header = () => {
                             <>
                                 {
                                     userModel &&
-                                    <Typography variant='caption' sx={{ color: 'black', mr: 2, fontSize: 16 }}>Hello, {userModel.name}</Typography>
+                                    <Typography variant='caption' sx={{ color: 'black', mr: 2, fontSize: 16 }}>
+                                        Hello, <Link to="profile"> {userModel.name}</Link>
+                                    </Typography>
                                 }
                                 <Link to="/add-posts">
                                     <Button variant="contained">Создать пост</Button>

@@ -7,7 +7,7 @@ interface InputProps {
     placeHolder: string,
     type: string,
     register: any,
-    errors: any
+    errors: any,
 }
 
 

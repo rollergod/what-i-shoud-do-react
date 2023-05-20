@@ -8,4 +8,5 @@ export const enum API_URLS {
     REFRESH = 'account/refreshToken',
     GET_ME = 'private/getMe',
     GET_POSTS = 'posts',
+    CHANGE_PROFILE = 'account/change'
 };
